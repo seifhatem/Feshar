@@ -78,8 +78,10 @@ class WishListViewController: UIViewController,UITableViewDataSource,UITableView
         let cell=tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath) as! MovieTableViewCell
         cell.titleLabel.text = watchList[indexPath.row].title
         cell.genreLabel.text = watchList[indexPath.row].genreWithDuration
-        cell.imdbLabel.text = watchList[indexPath.row].imdbRating
-        cell.posterImage.image = UIImage(named: watchList[indexPath.row].posterIdentifier)
+        cell.imdbLabel.text = String(watchList[indexPath.row].imdbRating)
+        if let poster = watchList[indexPath.row].posterData{
+            cell.posterImage.image = UIImage(data: poster)
+          }
         
         return cell
     }
