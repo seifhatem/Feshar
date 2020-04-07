@@ -8,8 +8,13 @@
 
 import Foundation
 
-struct Cast{
+struct Cast: Decodable{
     var name: String
-    var bio: String
     var photoIdentifier: String
+    var photoData: Data?
+    
+    enum CodingKeys: String, CodingKey {
+        case name = "name"
+        case photoIdentifier = "profile_path"
+    }
 }
