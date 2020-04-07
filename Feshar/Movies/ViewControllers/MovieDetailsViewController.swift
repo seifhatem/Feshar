@@ -39,10 +39,12 @@ class MovieDetailsViewController: UIViewController,UITableViewDataSource,UITable
     }
     
     func setupMoviePage(){
-        moivePoster?.image = UIImage(named: movie!.posterIdentifier)
+        if let poster = movie!.posterData{
+        moivePoster?.image = UIImage(data: poster)
+        }
         movieNameLabel?.text = movie!.title
         genreAndDurationLabel?.text = movie!.genreWithDuration
-        imdbLabel?.text = movie!.imdbRating
+        imdbLabel?.text = String(movie!.imdbRating)
         descriptionLabel?.text = movie!.description
     }
     
@@ -61,15 +63,16 @@ class MovieDetailsViewController: UIViewController,UITableViewDataSource,UITable
     
     //Table Setup
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return movie!.cast.count
+        //return movie!.cast.count
+        return 0
     }
 
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell=tableView.dequeueReusableCell(withIdentifier: "CastCell", for: indexPath) as! CastTableViewCell
-        cell.bioLabel.text = movie!.cast[indexPath.row].bio
-        cell.nameLabel.text = movie!.cast[indexPath.row].name
-        cell.photo.image = UIImage(named: movie!.cast[indexPath.row].photoIdentifier)
+//        cell.bioLabel.text = movie!.cast[indexPath.row].bio
+//        cell.nameLabel.text = movie!.cast[indexPath.row].name
+//        cell.photo.image = UIImage(named: movie!.cast[indexPath.row].photoIdentifier)
         return cell
     }
 
