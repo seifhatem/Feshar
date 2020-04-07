@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 class MovieDetailsViewController: UIViewController,UITableViewDataSource,UITableViewDelegate{
-     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var moivePoster: UIImageView!
     @IBOutlet weak var movieNameLabel: UILabel!
     @IBOutlet weak var genreAndDurationLabel: UILabel!
@@ -21,10 +21,9 @@ class MovieDetailsViewController: UIViewController,UITableViewDataSource,UITable
     var movie: Movie?
     var castArray = [Cast]()
     
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         tableView.delegate = self
         tableView.dataSource = self
         setupNavigationBar()
@@ -33,26 +32,38 @@ class MovieDetailsViewController: UIViewController,UITableViewDataSource,UITable
         updateWatchListButton()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        castArray.removeAll(keepingCapacity: false)
+    }
+    
     func fetchCast(){
         httpGETRequest(urlString: baseURL+"3/movie/"+String(movie!.id)+"/credits?api_key=6c52966d9be717e486a2a0c499867009") { (data, error) in
             if let data = data{
                 if let jsonResponse = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]{
                     if let cast = jsonResponse["cast"] as? NSArray{
                         for character in cast{
-                            if let r =  try? Cast(from: character){
-                            self.castArray.append(r)
+                            if var r =  try? Cast(from: character){
+                                httpGETRequest(urlString: postersBaseURL+r.photoIdentifier) { (data, error) in
+                                    if let data = data{
+                                        r.photoData = data
+                                        self.castArray.append(r)
+                                        DispatchQueue.main.async {
+                                            self.tableView.reloadData()
+                                        }
+                                    }
+                                }
+                                
                             }
                         }
                     }
                 }
             }
-            DispatchQueue.main.async {
-                 self.tableView.reloadData()
-            }
-           
+            
+            
         }
     }
-
+    
     
     func setupNavigationBar(){
         let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
@@ -64,7 +75,7 @@ class MovieDetailsViewController: UIViewController,UITableViewDataSource,UITable
     
     func setupMoviePage(){
         if let poster = movie!.posterData{
-        moivePoster?.image = UIImage(data: poster)
+            moivePoster?.image = UIImage(data: poster)
         }
         movieNameLabel?.text = movie!.title
         genreAndDurationLabel?.text = movie!.genreWithDuration
@@ -89,29 +100,23 @@ class MovieDetailsViewController: UIViewController,UITableViewDataSource,UITable
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return castArray.count
     }
-
+    
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell=tableView.dequeueReusableCell(withIdentifier: "CastCell", for: indexPath) as! CastTableViewCell
         cell.bioLabel.text = ""
         cell.nameLabel.text = castArray[indexPath.row].name
         
+        
         if let data =  self.castArray[indexPath.row].photoData{
             cell.photo.image = UIImage(data: data)
         }
         else{
-        httpGETRequest(urlString: postersBaseURL+castArray[indexPath.row].photoIdentifier) { (data, error) in
-            if let data = data{
-                self.castArray[indexPath.row].photoData = data
-                DispatchQueue.main.async {
-                    cell.photo.image = UIImage(data: data)
-                }
-            }
-        }
+            cell.photo.image = UIImage(named: "logo_port")
         }
         return cell
     }
-
     
-
+    
+    
 }
