@@ -19,14 +19,38 @@ class MovieDetailsViewController: UIViewController,UITableViewDataSource,UITable
     @IBOutlet weak var addToWishListButton: UIButton!
     
     var movie: Movie?
+    var castArray = [Cast]()
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         tableView.delegate = self
         tableView.dataSource = self
         setupNavigationBar()
+        fetchCast()
         setupMoviePage()
         updateWatchListButton()
+    }
+    
+    func fetchCast(){
+        httpGETRequest(urlString: baseURL+"3/movie/"+String(movie!.id)+"/credits?api_key=6c52966d9be717e486a2a0c499867009") { (data, error) in
+            if let data = data{
+                if let jsonResponse = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]{
+                    if let cast = jsonResponse["cast"] as? NSArray{
+                        for character in cast{
+                            if let r =  try? Cast(from: character){
+                            self.castArray.append(r)
+                            }
+                        }
+                    }
+                }
+            }
+            DispatchQueue.main.async {
+                 self.tableView.reloadData()
+            }
+           
+        }
     }
 
     
@@ -63,16 +87,28 @@ class MovieDetailsViewController: UIViewController,UITableViewDataSource,UITable
     
     //Table Setup
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        //return movie!.cast.count
-        return 0
+        return castArray.count
     }
 
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell=tableView.dequeueReusableCell(withIdentifier: "CastCell", for: indexPath) as! CastTableViewCell
-//        cell.bioLabel.text = movie!.cast[indexPath.row].bio
-//        cell.nameLabel.text = movie!.cast[indexPath.row].name
-//        cell.photo.image = UIImage(named: movie!.cast[indexPath.row].photoIdentifier)
+        cell.bioLabel.text = ""
+        cell.nameLabel.text = castArray[indexPath.row].name
+        
+        if let data =  self.castArray[indexPath.row].photoData{
+            cell.photo.image = UIImage(data: data)
+        }
+        else{
+        httpGETRequest(urlString: postersBaseURL+castArray[indexPath.row].photoIdentifier) { (data, error) in
+            if let data = data{
+                self.castArray[indexPath.row].photoData = data
+                DispatchQueue.main.async {
+                    cell.photo.image = UIImage(data: data)
+                }
+            }
+        }
+        }
         return cell
     }
 
