@@ -15,6 +15,7 @@ class FeaturedViewController: UIViewController,UITableViewDataSource,UITableView
     
 
     override func viewDidLoad() {
+        
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
@@ -56,8 +57,9 @@ class FeaturedViewController: UIViewController,UITableViewDataSource,UITableView
        func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
            if let cell = tableView.dequeueReusableCell(withIdentifier: "FeatureCell", for: indexPath) as? FeaturedTableViewCell
        {
-       cell.categoryTag = categoryTags[indexPath.row]
-       cell.moviesList = getMoviesWithTag(tag: categoryTags[indexPath.row])
+       //cell.categoryTag = categoryTags[indexPath.row]
+       //cell.moviesList = getMoviesWithTag(tag: categoryTags[indexPath.row])
+        cell.moviesList = passedMovies
            cell.categoryLabel.text = categoryTags[indexPath.row].rawValue.uppercased()
            cell.parentController = self
        return cell
