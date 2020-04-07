@@ -196,6 +196,10 @@ class HomeViewController: UIViewController,UITableViewDataSource,UITableViewDele
         cell.descriptionLabel.text = filteredMovies[indexPath.section].description
         cell.bringSubviewToFront(cell.posterImage)
         
+        if let data = self.filteredMovies[indexPath.section].posterData{
+            cell.posterImage.image = UIImage(data: data)
+        }
+        else{
         httpGETRequest(urlString: postersBaseURL+filteredMovies[indexPath.section].posterIdentifier) { (data, error) in
             if let data = data{
                 self.filteredMovies[indexPath.section].posterData = data
@@ -203,6 +207,7 @@ class HomeViewController: UIViewController,UITableViewDataSource,UITableViewDele
                     cell.posterImage.image = UIImage(data: data)
                 }
             }
+        }
         }
         return cell
     }
