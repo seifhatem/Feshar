@@ -8,6 +8,8 @@
 
 import Foundation
 
+var passedMovies = [Movie]()
+
 //var watchList:  [Movie]   = UserDefaults.standard.object(forKey: "watchList") as? [Movie] ?? [Movie]()
 private var watchList:  [Movie] = [Movie]()
 //var staticList = [bigmommashouse,baywatch,hobbs,wolfofwallstreet,babydriver,faultstars]
