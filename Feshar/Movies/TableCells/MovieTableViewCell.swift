@@ -15,4 +15,6 @@ class MovieTableViewCell: UITableViewCell {
     @IBOutlet weak var genreLabel: UILabel!
     @IBOutlet weak var imdbLabel: UILabel!
     @IBOutlet weak var descriptionLabel: UILabel!
+    
+    
 }

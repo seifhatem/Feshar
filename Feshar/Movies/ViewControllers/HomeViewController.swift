@@ -15,7 +15,8 @@ class HomeViewController: UIViewController,UITableViewDataSource,UITableViewDele
     @IBOutlet weak var filterButtonsCollection: UICollectionView!
     @IBOutlet weak var searchBar: UISearchBar!
     
-    var moviesList = fetchMoviesList()
+    //var moviesList = fetchMoviesList()
+    var moviesList = [Movie]()
     var filteredMovies: [Movie] = []
     
     var allButton: UIButton?
@@ -29,7 +30,6 @@ class HomeViewController: UIViewController,UITableViewDataSource,UITableViewDele
         
         super.viewDidLoad()
         setupNavigationBar()
-        filteredMovies = moviesList
         
         tableView.delegate = self
         tableView.dataSource = self
@@ -41,7 +41,30 @@ class HomeViewController: UIViewController,UITableViewDataSource,UITableViewDele
         searchBar.delegate  = self
         searchBar.searchTextField.delegate = self
         searchBar.searchBarStyle = .minimal
+        
+        fetchMoviesList()
     }
+    
+    func fetchMoviesList(){
+        httpGETRequest(urlString: baseURL+"3/trending/movie/week?api_key=6c52966d9be717e486a2a0c499867009&page=1&sort_by=release_date.desc") { (data, error) in
+            if let data = data{
+                if let jsonResponse = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]{
+                    if let movies = jsonResponse["results"] as? NSArray{
+                        for movie in movies{
+                            let r =  try! Movie(from: movie)
+                            self.moviesList.append(r)
+                        }
+                    }
+                }
+            }
+            self.filteredMovies = self.moviesList
+            DispatchQueue.main.async {
+                 self.tableView.reloadData()
+            }
+           
+        }
+    }
+
     
     func setupNavigationBar(){
         let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
@@ -82,9 +105,10 @@ class HomeViewController: UIViewController,UITableViewDataSource,UITableViewDele
     }
     
     func filterContentForGenre(_ genreText: String) {
-        filteredMovies = moviesList.filter { (movie: Movie) -> Bool in
-            return movie.genre.rawValue.lowercased().contains(genreText.lowercased())
-        }
+//        filteredMovies = moviesList.filter { (movie: Movie) -> Bool in
+//            return movie.genre.rawValue.lowercased().contains(genreText.lowercased())
+//        }
+        filteredMovies = moviesList
         tableView.reloadData()
     }
     
@@ -167,12 +191,23 @@ class HomeViewController: UIViewController,UITableViewDataSource,UITableViewDele
         let cell=tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath) as! MovieTableViewCell
         cell.titleLabel.text = filteredMovies[indexPath.section].title
         cell.genreLabel.text = filteredMovies[indexPath.section].genreWithDuration
-        cell.imdbLabel.text = filteredMovies[indexPath.section].imdbRating
-        cell.posterImage.image = UIImage(named: filteredMovies[indexPath.section].posterIdentifier)
+        cell.imdbLabel.text = String(filteredMovies[indexPath.section].imdbRating)
+        
         cell.descriptionLabel.text = filteredMovies[indexPath.section].description
         cell.bringSubviewToFront(cell.posterImage)
+        
+        httpGETRequest(urlString: postersBaseURL+filteredMovies[indexPath.section].posterIdentifier) { (data, error) in
+            if let data = data{
+                self.filteredMovies[indexPath.section].posterData = data
+                DispatchQueue.main.async {
+                    cell.posterImage.image = UIImage(data: data)
+                }
+            }
+        }
         return cell
     }
+    
+    
     
     //CollectionView Setup
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell
