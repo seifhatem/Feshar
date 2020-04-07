@@ -37,7 +37,10 @@ class FeaturedTableViewCell: UITableViewCell, UICollectionViewDelegate, UICollec
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FeaturedCollectionCell", for: indexPath) as! FeaturedCollectionViewCell
-        cell.movieImage.image = UIImage(named: moviesList[indexPath.row].posterIdentifier)
+        //cell.movieImage.image = UIImage(named: moviesList[indexPath.row].posterIdentifier)
+        if let posterData =  moviesList[indexPath.row].posterData{
+        cell.movieImage.image = UIImage(data: posterData)
+        }
         cell.movieImage.accessibilityIdentifier = String(indexPath.row)
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(imageTapped(tapGestureRecognizer:)))
         cell.movieImage.addGestureRecognizer(tapGestureRecognizer)
