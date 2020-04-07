@@ -14,8 +14,15 @@ let postersBaseURL = "https://image.tmdb.org/t/p/w300/"
 func httpGETRequest(urlString: String, completion: @escaping ( _ responseData: Data?, _ error: Error?) -> Void){
     
     let url = URL(string: urlString)
+    
+    
+    let configuration = URLSessionConfiguration.default
+    configuration.allowsCellularAccess = false
+    
+     let backgroundSession = URLSession(configuration: configuration)
      
-     let dogImageTask = URLSession.shared.dataTask(with: url!) {data, httpresponse, error in
+ 
+     let task = backgroundSession.dataTask(with: url!) {data, httpresponse, error in
          
          print("HTTP request completed")
          if let error = error{
@@ -34,7 +41,7 @@ func httpGETRequest(urlString: String, completion: @escaping ( _ responseData: D
          
      }
      
-     dogImageTask.resume()
+     task.resume()
      print("HTTP Request started")
 
 }
