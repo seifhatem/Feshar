@@ -51,20 +51,29 @@ class HomeViewController: UIViewController,UITableViewDataSource,UITableViewDele
                 if let jsonResponse = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]{
                     if let movies = jsonResponse["results"] as? NSArray{
                         for movie in movies{
-                            let r =  try! Movie(from: movie)
-                            self.moviesList.append(r)
+                            var r =  try! Movie(from: movie)
+                            httpGETRequest(urlString: postersBaseURL+r.posterIdentifier) { (data, error) in
+                                if let data = data{
+                                    r.posterData = data
+                                    self.moviesList.append(r)
+                                    
+                                    self.filteredMovies = self.moviesList
+                                    DispatchQueue.main.async {
+                                        self.tableView.reloadData()
+                                    }
+                                    
+                                    
+                                }
+                            }
+                            
                         }
                     }
                 }
             }
-            self.filteredMovies = self.moviesList
-            DispatchQueue.main.async {
-                 self.tableView.reloadData()
-            }
-           
+            
         }
     }
-
+    
     
     func setupNavigationBar(){
         let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
@@ -105,9 +114,9 @@ class HomeViewController: UIViewController,UITableViewDataSource,UITableViewDele
     }
     
     func filterContentForGenre(_ genreText: String) {
-//        filteredMovies = moviesList.filter { (movie: Movie) -> Bool in
-//            return movie.genre.rawValue.lowercased().contains(genreText.lowercased())
-//        }
+        //        filteredMovies = moviesList.filter { (movie: Movie) -> Bool in
+        //            return movie.genre.rawValue.lowercased().contains(genreText.lowercased())
+        //        }
         filteredMovies = moviesList
         tableView.reloadData()
     }
@@ -200,14 +209,7 @@ class HomeViewController: UIViewController,UITableViewDataSource,UITableViewDele
             cell.posterImage.image = UIImage(data: data)
         }
         else{
-        httpGETRequest(urlString: postersBaseURL+filteredMovies[indexPath.section].posterIdentifier) { (data, error) in
-            if let data = data{
-                self.filteredMovies[indexPath.section].posterData = data
-                DispatchQueue.main.async {
-                    cell.posterImage.image = UIImage(data: data)
-                }
-            }
-        }
+            
         }
         return cell
     }
@@ -294,7 +296,7 @@ class HomeViewController: UIViewController,UITableViewDataSource,UITableViewDele
     //Share cell button
     func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         
-
+        
         let shareButton = UIContextualAction(style: .normal,title: "Share") { (action, view, success) in
             let text = "I just stumbled upon this movie on Feshar, wanna watch it with me?\n\(self.filteredMovies[indexPath.section].title)\n\(self.filteredMovies[indexPath.section].genreWithDuration)\n\n\(self.filteredMovies[indexPath.section].description)"
             let imageToShare = UIImage(named: self.filteredMovies[indexPath.section].posterIdentifier)
@@ -303,7 +305,7 @@ class HomeViewController: UIViewController,UITableViewDataSource,UITableViewDele
         }
         shareButton.image = UIImage(systemName: "square.and.arrow.up")
         shareButton.backgroundColor = .green
-
+        
         
         let config = UISwipeActionsConfiguration(actions: [shareButton])
         return config
