@@ -56,7 +56,7 @@ class HomeViewController: UIViewController,UITableViewDataSource,UITableViewDele
                                 if let data = data{
                                     r.posterData = data
                                     self.moviesList.append(r)
-                                    
+                                    passedMovies = self.moviesList
                                     self.filteredMovies = self.moviesList
                                     DispatchQueue.main.async {
                                         self.tableView.reloadData()
