@@ -10,16 +10,14 @@ import Foundation
 
 //var watchList:  [Movie]   = UserDefaults.standard.object(forKey: "watchList") as? [Movie] ?? [Movie]()
 private var watchList:  [Movie] = [Movie]()
-var staticList = [bigmommashouse,baywatch,hobbs,wolfofwallstreet,babydriver,faultstars]
+//var staticList = [bigmommashouse,baywatch,hobbs,wolfofwallstreet,babydriver,faultstars]
 
 
 func setupDummyWatchList(){
-    watchList.append(wolfofwallstreet)
-    watchList.append(bigmommashouse)
+    //watchList.append(wolfofwallstreet)
+    //watchList.append(bigmommashouse)
 }
-func fetchMoviesList()->[Movie]{
-    return staticList
-}
+
 
 func addToWatchList(movie: Movie){
     if !(isInWatchList(movie)){
@@ -65,12 +63,14 @@ func saveWatchList(){
 }
 
 func getMoviesWithTag(tag: Tag)->[Movie]{
-    var returnList = [Movie]()
-    for movie in staticList{
-        if movie.tags.contains(tag){
-            returnList.append(movie)
-        }
-    }
-    return returnList
-    
+    //    var returnList = [Movie]()
+    //    for movie in staticList{
+    //        if movie.tags.contains(tag){
+    //            returnList.append(movie)
+    //        }
+    //    }
+    //    return returnList
+    return [Movie]()
 }
+
+
