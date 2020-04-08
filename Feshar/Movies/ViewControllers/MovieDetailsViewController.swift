@@ -32,10 +32,6 @@ class MovieDetailsViewController: UIViewController,UITableViewDataSource,UITable
         updateWatchListButton()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        castArray.removeAll(keepingCapacity: false)
-    }
     
     func fetchCast(){
         httpGETRequest(urlString: baseURL+"3/movie/"+String(movie!.id)+"/credits?api_key=6c52966d9be717e486a2a0c499867009") { (data, error) in
