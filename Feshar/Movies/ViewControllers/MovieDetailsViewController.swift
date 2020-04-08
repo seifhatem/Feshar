@@ -34,7 +34,7 @@ class MovieDetailsViewController: UIViewController,UITableViewDataSource,UITable
     
     
     func fetchCast(){
-        httpGETRequest(urlString: baseURL+"3/movie/"+String(movie!.id)+"/credits?api_key=6c52966d9be717e486a2a0c499867009") { (data, error) in
+        httpGETRequest(urlString: baseURL+"3/movie/"+String(movie!.id)+"/credits") { (data, error) in
             guard let data = data else{return}
             guard let jsonResponse = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] else{return}
             guard let cast = jsonResponse["cast"] as? NSArray else{return}
@@ -43,8 +43,14 @@ class MovieDetailsViewController: UIViewController,UITableViewDataSource,UITable
                 httpGETRequest(urlString: postersBaseURL+r.photoIdentifier) { (data, error) in
                     guard let data = data else{return}
                     r.photoData = data
-                    self.castArray.append(r)
-                    DispatchQueue.main.async {self.tableView.reloadData()}
+                    httpGETRequest(urlString: baseURL+"3/person/"+String(r.id)) { (data, error) in
+                        guard let data = data else{return}
+                        guard let jsonResponse = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] else{return}
+                        guard let bio = jsonResponse["biography"] as? String else{return}
+                        r.bio = bio
+                        self.castArray.append(r)
+                        DispatchQueue.main.async {self.tableView.reloadData()}
+                    }
                 }
             }
         }
@@ -90,7 +96,7 @@ class MovieDetailsViewController: UIViewController,UITableViewDataSource,UITable
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell=tableView.dequeueReusableCell(withIdentifier: "CastCell", for: indexPath) as! CastTableViewCell
-        cell.bioLabel.text = ""
+        cell.bioLabel.text = castArray[indexPath.row].bio
         cell.nameLabel.text = castArray[indexPath.row].name
         
         
