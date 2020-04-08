@@ -46,7 +46,7 @@ class HomeViewController: UIViewController,UITableViewDataSource,UITableViewDele
     }
     
     func fetchMoviesList(){
-        httpGETRequest(urlString: baseURL+"3/trending/movie/week?api_key=6c52966d9be717e486a2a0c499867009&page=1&sort_by=release_date.desc") { (data, error) in
+        httpGETRequest(urlString: baseURL+"3/trending/movie/week?page=1&sort_by=release_date.desc") { (data, error) in
             guard let data = data else{return}
             guard let jsonResponse = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] else{return}
             guard let movies = jsonResponse["results"] as? NSArray else{return}
