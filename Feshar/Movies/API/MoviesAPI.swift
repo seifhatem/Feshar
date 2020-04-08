@@ -24,7 +24,7 @@ func httpGETRequest(urlString: String, completion: @escaping ( _ responseData: D
  
      let task = backgroundSession.dataTask(with: url!) {data, httpresponse, error in
          
-         print("HTTP request completed")
+         //print("HTTP request completed")
          if let error = error{
              print("HTTP Request Error: " + error.localizedDescription)
          }
@@ -42,6 +42,6 @@ func httpGETRequest(urlString: String, completion: @escaping ( _ responseData: D
      }
      
      task.resume()
-     print("HTTP Request started")
+     //print("HTTP Request started")
 
 }
