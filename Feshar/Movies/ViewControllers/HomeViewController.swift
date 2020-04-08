@@ -47,27 +47,18 @@ class HomeViewController: UIViewController,UITableViewDataSource,UITableViewDele
     
     func fetchMoviesList(){
         httpGETRequest(urlString: baseURL+"3/trending/movie/week?api_key=6c52966d9be717e486a2a0c499867009&page=1&sort_by=release_date.desc") { (data, error) in
-            if let data = data{
-                if let jsonResponse = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]{
-                    if let movies = jsonResponse["results"] as? NSArray{
-                        for movie in movies{
-                            var r =  try! Movie(from: movie)
-                            httpGETRequest(urlString: postersBaseURL+r.posterIdentifier) { (data, error) in
-                                if let data = data{
-                                    r.posterData = data
-                                    self.moviesList.append(r)
-                                    passedMovies = self.moviesList
-                                    self.filteredMovies = self.moviesList
-                                    DispatchQueue.main.async {
-                                        self.tableView.reloadData()
-                                    }
-                                    
-                                    
-                                }
-                            }
-                            
-                        }
-                    }
+            guard let data = data else{return}
+            guard let jsonResponse = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] else{return}
+            guard let movies = jsonResponse["results"] as? NSArray else{return}
+            for movie in movies{
+                var r =  try! Movie(from: movie)
+                httpGETRequest(urlString: postersBaseURL+r.posterIdentifier) { (data, error) in
+                    guard let data = data else{return}
+                    r.posterData = data
+                    self.moviesList.append(r)
+                    passedMovies = self.moviesList
+                    self.filteredMovies = self.moviesList
+                    DispatchQueue.main.async {self.tableView.reloadData()}
                 }
             }
             

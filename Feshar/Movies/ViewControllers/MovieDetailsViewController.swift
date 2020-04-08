@@ -35,28 +35,18 @@ class MovieDetailsViewController: UIViewController,UITableViewDataSource,UITable
     
     func fetchCast(){
         httpGETRequest(urlString: baseURL+"3/movie/"+String(movie!.id)+"/credits?api_key=6c52966d9be717e486a2a0c499867009") { (data, error) in
-            if let data = data{
-                if let jsonResponse = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]{
-                    if let cast = jsonResponse["cast"] as? NSArray{
-                        for character in cast{
-                            if var r =  try? Cast(from: character){
-                                httpGETRequest(urlString: postersBaseURL+r.photoIdentifier) { (data, error) in
-                                    if let data = data{
-                                        r.photoData = data
-                                        self.castArray.append(r)
-                                        DispatchQueue.main.async {
-                                            self.tableView.reloadData()
-                                        }
-                                    }
-                                }
-                                
-                            }
-                        }
-                    }
+            guard let data = data else{return}
+            guard let jsonResponse = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] else{return}
+            guard let cast = jsonResponse["cast"] as? NSArray else{return}
+            for character in cast{
+                guard var r =  try? Cast(from: character) else{return}
+                httpGETRequest(urlString: postersBaseURL+r.photoIdentifier) { (data, error) in
+                    guard let data = data else{return}
+                    r.photoData = data
+                    self.castArray.append(r)
+                    DispatchQueue.main.async {self.tableView.reloadData()}
                 }
             }
-            
-            
         }
     }
     
