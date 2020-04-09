@@ -10,11 +10,21 @@ import UIKit
 
 class WishListViewController: UIViewController,UITableViewDataSource,UITableViewDelegate {
     @IBOutlet weak var tableView: UITableView!
-    var watchList = fetchWatchList()
+    var watchList = [Movie]()
     
     override func viewWillAppear(_ animated: Bool) {
-        watchList = fetchWatchList()
-        tableView.reloadData()
+       
+        fetchWatchList()
+        //tableView.reloadData()
+    }
+    
+    func fetchWatchList(){
+        httpGETRequest(urlString: MoviesAPI.Endpoints.GetWatchListURL.stringValue) { (data, error) in
+             if error != nil {self.popAlertWithMessage("Couldn't communicate with the server");return;}
+            guard let data = data else{self.popAlertWithMessage("Couldn't communicate with the server");return;}
+            self.watchList = try! JSONDecoder().decode(GetWatchListResponse.self, from: data).results
+            DispatchQueue.main.async {self.tableView.reloadData()}
+        }
     }
     
     override func viewDidLoad() {
@@ -86,10 +96,19 @@ class WishListViewController: UIViewController,UITableViewDataSource,UITableView
         return cell
     }
     
+    func popAlertWithMessage(_ message: String){
+
+        DispatchQueue.main.async {
+        let alert = UIAlertController.init(title: "Login Error", message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Got it", style: .default, handler: nil))
+        self.present(alert, animated: true, completion: nil)
+        }
+    }
+    
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             removeFromWatchList(index: indexPath.row)
-            watchList = fetchWatchList()
+            fetchWatchList()
             tableView.deleteRows(at: [indexPath], with: .fade)
         }
     }
