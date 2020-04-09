@@ -11,7 +11,7 @@ import Foundation
 var passedMovies = [Movie]()
 
 //var watchList:  [Movie]   = UserDefaults.standard.object(forKey: "watchList") as? [Movie] ?? [Movie]()
-private var watchList:  [Movie] = [Movie]()
+var watchList:  [Movie] = [Movie]()
 //var staticList = [bigmommashouse,baywatch,hobbs,wolfofwallstreet,babydriver,faultstars]
 
 
@@ -21,13 +21,39 @@ func setupDummyWatchList(){
 }
 
 
-func addToWatchList(movie: Movie){
-    if !(isInWatchList(movie)){
-        watchList.append(movie)
+func fetchWatchList(completion: @escaping () -> Void){
+    httpGETRequest(urlString: MoviesAPI.Endpoints.GetWatchListURL.stringValue) { (data, error) in
+        if error != nil {return;}
+        guard let data = data else{return;}
+        watchList = try! JSONDecoder().decode(GetWatchListResponse.self, from: data).results
+        fetcPostersForWatchList {
+            completion()
+        }
+        
     }
-    //saveWatchList()
-    
 }
+
+func fetcPostersForWatchList(completion: @escaping () -> Void){
+    for i in 0..<watchList.count{
+    var movie = watchList[i]
+    httpGETRequest(urlString: MoviesAPI.Endpoints.FetchPosterImageURL.stringValue + movie.posterIdentifier) { (data, error) in
+        guard let data = data else{return}
+        movie.posterData = data
+        watchList[i] = movie
+        completion()
+    }
+}
+}
+
+func addToWatchList(movie: Movie){
+    let postData = try! JSONEncoder().encode(AddToWachListRequest(media_id: movie.id))
+    httpPOSTRequest(urlString: MoviesAPI.Endpoints.AddToWachListURL.stringValue, postData: postData){ (data, error) in
+    }
+    watchList.append(movie)
+    
+    }
+    
+
 
 func removeFromWatchList(index: Int){
     watchList.remove(at: index)

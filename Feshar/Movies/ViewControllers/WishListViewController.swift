@@ -10,35 +10,14 @@ import UIKit
 
 class WishListViewController: UIViewController,UITableViewDataSource,UITableViewDelegate {
     @IBOutlet weak var tableView: UITableView!
-    var watchList = [Movie]()
     
     override func viewWillAppear(_ animated: Bool) {
-       
-        fetchWatchList()
+        fetchWatchList {
+            DispatchQueue.main.async { self.tableView.reloadData() }
+        }
         //tableView.reloadData()
     }
     
-    func fetchWatchList(){
-        httpGETRequest(urlString: MoviesAPI.Endpoints.GetWatchListURL.stringValue) { (data, error) in
-             if error != nil {self.popAlertWithMessage("Couldn't communicate with the server");return;}
-            guard let data = data else{self.popAlertWithMessage("Couldn't communicate with the server");return;}
-            self.watchList = try! JSONDecoder().decode(GetWatchListResponse.self, from: data).results
-            DispatchQueue.main.async {self.tableView.reloadData()}
-            self.fetcPostersForWatchList()
-        }
-    }
-    
-    func fetcPostersForWatchList(){
-        for i in 0..<watchList.count{
-        var movie = watchList[i]
-        httpGETRequest(urlString: MoviesAPI.Endpoints.FetchPosterImageURL.stringValue + movie.posterIdentifier) { (data, error) in
-            guard let data = data else{return}
-            movie.posterData = data
-            self.watchList[i] = movie
-            DispatchQueue.main.async {self.tableView.reloadData()}
-        }
-    }
-    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -121,7 +100,9 @@ class WishListViewController: UIViewController,UITableViewDataSource,UITableView
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             removeFromWatchList(index: indexPath.row)
-            fetchWatchList()
+//            fetchWatchList {
+//                DispatchQueue.main.async { self.tableView.reloadData() }
+//            }
             tableView.deleteRows(at: [indexPath], with: .fade)
         }
     }

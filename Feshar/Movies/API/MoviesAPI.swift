@@ -25,7 +25,7 @@ class MoviesAPI{
         case CreateSessionWithLoginURL
         case CreateSessionURL
         case GetWatchListURL
-        
+        case AddToWachListURL
         
         var stringValue: String {
             switch self {
@@ -35,6 +35,7 @@ class MoviesAPI{
             case .FetchPersonURL:    return Endpoints.baseURL + "person/"
             case .CreateSessionWithLoginURL: return Endpoints.baseURL + "authentication/token/validate_with_login"
             case .GetWatchListURL: return Endpoints.baseURL + "account/1/watchlist/movies?session_id="
+            case .AddToWachListURL: return Endpoints.baseURL + "account/1/watchlist?session_id="
             case .CreateSessionURL: return Endpoints.baseURL + "authentication/session/new"
                 
             }
@@ -64,24 +65,7 @@ class MoviesAPI{
     //        }
 }
 func httpGETRequest( urlString: String, completion: @escaping ( _ responseData: Data?, _ error: Error?) -> Void){
-    var urlStringWithKey = ""
-    
-    if let session = loginSession?.session_id, urlString.contains("session_id") {
-        urlStringWithKey = urlString + session
-    }
-    else
-    {
-        urlStringWithKey = urlString
-    }
-    
-    
-    if (urlStringWithKey.contains("?")){
-        urlStringWithKey = urlStringWithKey + "&api_key=" + API_KEY
-    }
-    else
-    {
-        urlStringWithKey = urlStringWithKey + "?api_key=" + API_KEY
-    }
+    let urlStringWithKey = appendKeysToURL(urlString: urlString)
     
     let url = URL(string: urlStringWithKey)
     
@@ -117,15 +101,8 @@ func httpGETRequest( urlString: String, completion: @escaping ( _ responseData: 
 }
 
 func httpPOSTRequest(urlString: String, postData: Data, completion: @escaping ( _ responseData: Data?, _ error: Error?) -> Void){
-    var urlStringWithKey = ""
-    
-    if (urlString.contains("?")){
-        urlStringWithKey = urlString + "&api_key=" + API_KEY
-    }
-    else
-    {
-        urlStringWithKey = urlString + "?api_key=" + API_KEY
-    }
+  let urlStringWithKey = appendKeysToURL(urlString: urlString)
+    print(urlStringWithKey)
     
     let url = URL(string: urlStringWithKey)
     
@@ -133,7 +110,7 @@ func httpPOSTRequest(urlString: String, postData: Data, completion: @escaping ( 
     let configuration = URLSessionConfiguration.default
     configuration.allowsCellularAccess = false
     let backgroundSession = URLSession(configuration: configuration)
-    
+
     var request = URLRequest(url: url!)
     request.httpMethod = "POST"
     request.httpBody = postData
@@ -161,4 +138,26 @@ func httpPOSTRequest(urlString: String, postData: Data, completion: @escaping ( 
     task.resume()
     //print("HTTP Request started")
     
+}
+
+func appendKeysToURL(urlString: String) -> String{
+    var urlStringWithKey = ""
+    
+    if let session = loginSession?.session_id, urlString.contains("session_id") {
+        urlStringWithKey = urlString + session
+    }
+    else
+    {
+        urlStringWithKey = urlString
+    }
+    
+    
+    if (urlStringWithKey.contains("?")){
+        urlStringWithKey = urlStringWithKey + "&api_key=" + API_KEY
+    }
+    else
+    {
+        urlStringWithKey = urlStringWithKey + "?api_key=" + API_KEY
+    }
+    return urlStringWithKey
 }

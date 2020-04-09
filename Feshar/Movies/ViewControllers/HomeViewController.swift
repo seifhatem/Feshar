@@ -43,6 +43,7 @@ class HomeViewController: UIViewController,UITableViewDataSource,UITableViewDele
         searchBar.searchBarStyle = .minimal
         
         fetchMoviesList()
+        fetchWatchList {}
     }
     
     func fetchMoviesList(){
