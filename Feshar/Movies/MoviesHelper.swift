@@ -34,9 +34,9 @@ func removeFromWatchList(index: Int){
     //saveWatchList()
 }
 
-func fetchWatchList()->[Movie]{
-    return watchList
-}
+//func fetchWatchList()->[Movie]{
+//    return watchList
+//}
 
 
 func removeFromWatchList(movie: Movie){
