@@ -24,7 +24,20 @@ class WishListViewController: UIViewController,UITableViewDataSource,UITableView
             guard let data = data else{self.popAlertWithMessage("Couldn't communicate with the server");return;}
             self.watchList = try! JSONDecoder().decode(GetWatchListResponse.self, from: data).results
             DispatchQueue.main.async {self.tableView.reloadData()}
+            self.fetcPostersForWatchList()
         }
+    }
+    
+    func fetcPostersForWatchList(){
+        for i in 0..<watchList.count{
+        var movie = watchList[i]
+        httpGETRequest(urlString: MoviesAPI.Endpoints.FetchPosterImageURL.stringValue + movie.posterIdentifier) { (data, error) in
+            guard let data = data else{return}
+            movie.posterData = data
+            self.watchList[i] = movie
+            DispatchQueue.main.async {self.tableView.reloadData()}
+        }
+    }
     }
     
     override func viewDidLoad() {
