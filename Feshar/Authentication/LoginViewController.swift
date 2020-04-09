@@ -13,32 +13,78 @@ class LoginViewController: UIViewController{
     @IBOutlet weak var usernameTxtBox: UITextField!
     @IBOutlet weak var passwordTxtBox: UITextField!
     @IBOutlet weak var autoLoginSwitch: UISwitch!
+    @IBOutlet weak var loginButton: UIButton!
     
     override func viewDidLoad() {
-           super.viewDidLoad()
+        super.viewDidLoad()
     }
     //Username and password should be required fields. If the user forgets to input either, a UIAlert should appear to warn them.
     //The password should be at least 8 characters long.  If the user inputs a password that is less than 8 characters, a UIAlert should appear to warn them.
     
     @IBAction func loginBtnTapped(_ sender: Any) {
+        //disable login form controls
+        changeLoginFormStatus()
+        
+        let decoder = JSONDecoder()
         if let enteredUsername  = usernameTxtBox.text, let enteredPassword = passwordTxtBox.text{
             if credentialsValidationCheck(username: enteredUsername, password: enteredPassword){
-                if authenticate(username: enteredUsername ,password: enteredPassword){
-                    if(autoLoginSwitch.isOn){saveCredentialsToUD(username: enteredUsername, password: enteredPassword)}
-                    showSuccessfulLoginVC(withUsername: enteredUsername)
-                }
-                else{
-                    popAlertWithMessage("Invalid email or password")
+                //get request token
+                httpGETRequest(urlString: MoviesAPI.Endpoints.CreateRquestTokenURL.stringValue) { (data, error) in
+                    if error != nil {self.popAlertWithMessage("Couldn't communicate with the server");return;}
+                    do {
+                        let responseObject = try decoder.decode(CreateRequestTokenResponse.self, from: data!)
+                        //create session with login
+                        do{
+                            let loginData = try JSONEncoder().encode(CreateSessionWithLoginRequest(username: enteredUsername, password: enteredPassword, request_token: responseObject.request_token))
+                            
+                            httpPOSTRequest(urlString: MoviesAPI.Endpoints.CreateSessionURL.stringValue, postData: loginData) { (data, error) in
+                                
+                                    if error != nil {self.popAlertWithMessage("Authentication Failed");return;}
+                                    loginSession = try! decoder.decode(CreateSessionWithLoginResponse.self, from: data!)
+                                if loginSession?.success ?? false
+                                {
+                                    //TODO: Implement Auto Login
+                                    DispatchQueue.main.async {self.showSuccessfulLoginVC(withUsername: enteredUsername)}
+                                }
+                                else{
+                                    self.popAlertWithMessage("Authentication Failed");return;
+                                }
+                                
+                            }
+                            
+                        }
+                        catch{self.popAlertWithMessage("Authentication Failed");return;}
+                    }catch {self.popAlertWithMessage("Couldn't communicate with the server");return;}
+                    
                 }
             }
         }
     }
     
     
+    func changeLoginFormStatus(){
+        if usernameTxtBox.isEnabled{
+            usernameTxtBox.isEnabled = false
+            passwordTxtBox.isEnabled = false
+            loginButton.isEnabled = false
+        }
+        else{
+            usernameTxtBox.isEnabled = true
+            passwordTxtBox.isEnabled = true
+            loginButton.isEnabled = true
+        }
+    }
+    
+    
     func popAlertWithMessage(_ message: String){
+
+        DispatchQueue.main.async {
+            //alert is called so the login process is definitely complete so reenable controls
+            self.changeLoginFormStatus()
         let alert = UIAlertController.init(title: "Login Error", message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Got it", style: .default, handler: nil))
         self.present(alert, animated: true, completion: nil)
+        }
     }
     
     func credentialsValidationCheck(username: String, password: String) -> Bool{
@@ -49,17 +95,13 @@ class LoginViewController: UIViewController{
     }
     
     func showSuccessfulLoginVC(withUsername: String){
-       let successfulLoginVC = storyboard?.instantiateViewController(withIdentifier: "SuccessfulLoginViewController") as! SuccessfulLoginViewController
-       
+      
+        let successfulLoginVC = storyboard?.instantiateViewController(withIdentifier: "SuccessfulLoginViewController") as! SuccessfulLoginViewController
+        
         successfulLoginVC.modalPresentationStyle = .fullScreen
         present(successfulLoginVC, animated: true, completion: nil)
         successfulLoginVC.loggedinUserLabel.text = withUsername
+        
     }
-    
-    func showFailedLoginVC(){
-       passwordTxtBox.text = ""
-       let failedLoginVC = storyboard?.instantiateViewController(withIdentifier: "FailedLoginViewController")
-        present(failedLoginVC!, animated: true, completion: nil)
-    }
-    
+
 }
