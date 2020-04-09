@@ -88,6 +88,7 @@ class HomeViewController: UIViewController,UITableViewDataSource,UITableViewDele
             tableView.reloadData()
         }
         else{
+            print("hi")
             filterContentForSearchText(searchBar.text!)
         }
     }
@@ -247,24 +248,6 @@ class HomeViewController: UIViewController,UITableViewDataSource,UITableViewDele
     
     //Add to watch list cell button
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        //Ali msh 3ayez y-remove mn el watchlist
-        //        var watchListButton = UIContextualAction(style: .normal, title: "⭐") { (action, view, success) in
-        //            addToWatchList(movie: self.moviesList[indexPath.section])
-        //            success(true)
-        //        }
-        //        var config = UISwipeActionsConfiguration(actions: [watchListButton])
-        //        watchListButton.backgroundColor = .green
-        //
-        //        if isInWatchList(self.moviesList[indexPath.section]){
-        //            watchListButton = UIContextualAction(style: .destructive, title: "❌") { (action, view, success) in
-        //                removeFromWatchList(movie: self.moviesList[indexPath.section])
-        //                watchListButton.backgroundColor = .red
-        //                success(true)
-        //            }
-        //            config = UISwipeActionsConfiguration(actions: [watchListButton])
-        //             config.performsFirstActionWithFullSwipe = false
-        //        }
-        
         let isAlreadyInList = isInWatchList(self.filteredMovies[indexPath.section])
         
         let watchListButton = UIContextualAction(style: .normal, title: "Add to watchlist") { (action, view, success) in
