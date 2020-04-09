@@ -9,16 +9,7 @@
 import Foundation
 
 var passedMovies = [Movie]()
-
-//var watchList:  [Movie]   = UserDefaults.standard.object(forKey: "watchList") as? [Movie] ?? [Movie]()
 var watchList:  [Movie] = [Movie]()
-//var staticList = [bigmommashouse,baywatch,hobbs,wolfofwallstreet,babydriver,faultstars]
-
-
-func setupDummyWatchList(){
-    //watchList.append(wolfofwallstreet)
-    //watchList.append(bigmommashouse)
-}
 
 
 func fetchWatchList(completion: @escaping () -> Void){
@@ -63,34 +54,17 @@ func removeFromWatchList(index: Int){
     
 }
 
-//func fetchWatchList()->[Movie]{
-//    return watchList
-//}
-
-
 func removeFromWatchList(movie: Movie){
     if let index =  watchList.firstIndex(of: movie){
         watchList.remove(at:index)
     }
-    
-    //saveWatchList()
 }
-
-
-
 
 func isInWatchList(_ movie: Movie)->Bool{
     if watchList.contains(movie){
         return true
     }
     return false
-}
-
-func saveWatchList(){
-    //TODO: we don't save to userdefaults because what's the point
-    let encodedData = try! NSKeyedArchiver.archivedData(withRootObject: watchList, requiringSecureCoding: false)
-    UserDefaults.standard.set(encodedData, forKey: "watchList")
-    UserDefaults.standard.synchronize()
 }
 
 func getMoviesWithTag(tag: Tag)->[Movie]{
