@@ -20,6 +20,10 @@
 		A8593B81242A81410017B91E /* SuccessfulLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8593B80242A81410017B91E /* SuccessfulLoginViewController.swift */; };
 		A8593B85242A8BD50017B91E /* AuthenticationModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8593B84242A8BD50017B91E /* AuthenticationModule.swift */; };
 		A8608FA0243291EA006F156D /* CastTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8608F9F243291EA006F156D /* CastTableViewCell.swift */; };
+		A889C9E8243EAFA8007509D5 /* CreateRequestTokenRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = A889C9E7243EAFA8007509D5 /* CreateRequestTokenRequest.swift */; };
+		A889C9EB243EB014007509D5 /* CreateRequestTokenResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = A889C9EA243EB014007509D5 /* CreateRequestTokenResponse.swift */; };
+		A889C9ED243EC17F007509D5 /* CreateSessionWithLoginRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = A889C9EC243EC17F007509D5 /* CreateSessionWithLoginRequest.swift */; };
+		A889C9EF243EC18F007509D5 /* CreateSessionWithLoginResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = A889C9EE243EC18F007509D5 /* CreateSessionWithLoginResponse.swift */; };
 		A8DB19D12437664900A39042 /* FilterButtonCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8DB19D02437664900A39042 /* FilterButtonCollectionViewCell.swift */; };
 		A8F0A7302432A30C002AFF29 /* Cast.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8F0A72F2432A30C002AFF29 /* Cast.swift */; };
 		A8F0A7322432A4B0002AFF29 /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8F0A7312432A4B0002AFF29 /* Movie.swift */; };
@@ -48,6 +52,10 @@
 		A8593B80242A81410017B91E /* SuccessfulLoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuccessfulLoginViewController.swift; sourceTree = "<group>"; };
 		A8593B84242A8BD50017B91E /* AuthenticationModule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationModule.swift; sourceTree = "<group>"; };
 		A8608F9F243291EA006F156D /* CastTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CastTableViewCell.swift; sourceTree = "<group>"; };
+		A889C9E7243EAFA8007509D5 /* CreateRequestTokenRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateRequestTokenRequest.swift; sourceTree = "<group>"; };
+		A889C9EA243EB014007509D5 /* CreateRequestTokenResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateRequestTokenResponse.swift; sourceTree = "<group>"; };
+		A889C9EC243EC17F007509D5 /* CreateSessionWithLoginRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateSessionWithLoginRequest.swift; sourceTree = "<group>"; };
+		A889C9EE243EC18F007509D5 /* CreateSessionWithLoginResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateSessionWithLoginResponse.swift; sourceTree = "<group>"; };
 		A8DB19D02437664900A39042 /* FilterButtonCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterButtonCollectionViewCell.swift; sourceTree = "<group>"; };
 		A8F0A72F2432A30C002AFF29 /* Cast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cast.swift; sourceTree = "<group>"; };
 		A8F0A7312432A4B0002AFF29 /* Movie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Movie.swift; sourceTree = "<group>"; };
@@ -91,6 +99,8 @@
 		A82F7EAD243C98D900B48F15 /* API */ = {
 			isa = PBXGroup;
 			children = (
+				A889C9E9243EAFAE007509D5 /* Responses */,
+				A889C9E6243EAF01007509D5 /* Requests */,
 				A82F7EAE243C994800B48F15 /* MoviesAPI.swift */,
 			);
 			path = API;
@@ -115,6 +125,24 @@
 				A8593B80242A81410017B91E /* SuccessfulLoginViewController.swift */,
 			);
 			path = Authentication;
+			sourceTree = "<group>";
+		};
+		A889C9E6243EAF01007509D5 /* Requests */ = {
+			isa = PBXGroup;
+			children = (
+				A889C9E7243EAFA8007509D5 /* CreateRequestTokenRequest.swift */,
+				A889C9EC243EC17F007509D5 /* CreateSessionWithLoginRequest.swift */,
+			);
+			path = Requests;
+			sourceTree = "<group>";
+		};
+		A889C9E9243EAFAE007509D5 /* Responses */ = {
+			isa = PBXGroup;
+			children = (
+				A889C9EA243EB014007509D5 /* CreateRequestTokenResponse.swift */,
+				A889C9EE243EC18F007509D5 /* CreateSessionWithLoginResponse.swift */,
+			);
+			path = Responses;
 			sourceTree = "<group>";
 		};
 		A8F0A73D2432C0FD002AFF29 /* TableCells */ = {
@@ -244,7 +272,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				A841BECA24339E4F001FCECA /* Tag.swift in Sources */,
+				A889C9ED243EC17F007509D5 /* CreateSessionWithLoginRequest.swift in Sources */,
 				A8F0A73A2432B87F002AFF29 /* MoviesHelper.swift in Sources */,
+				A889C9EF243EC18F007509D5 /* CreateSessionWithLoginResponse.swift in Sources */,
 				A80F39FC2438F3F60082E595 /* TabBarViewController.swift in Sources */,
 				A81813102433214600643B3B /* MovieDummyList.swift in Sources */,
 				A8F0A7302432A30C002AFF29 /* Cast.swift in Sources */,
@@ -263,8 +293,10 @@
 				A82CDCE32433A37B0036814F /* FeaturedViewController.swift in Sources */,
 				A829198E2431043F000240CC /* MovieDetailsViewController.swift in Sources */,
 				A8F0A73C2432BBA3002AFF29 /* MovieTableViewCell.swift in Sources */,
+				A889C9EB243EB014007509D5 /* CreateRequestTokenResponse.swift in Sources */,
 				A818130E2433211D00643B3B /* Genre.swift in Sources */,
 				A82F7EAF243C994800B48F15 /* MoviesAPI.swift in Sources */,
+				A889C9E8243EAFA8007509D5 /* CreateRequestTokenRequest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
