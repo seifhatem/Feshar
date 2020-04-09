@@ -34,16 +34,16 @@ class MovieDetailsViewController: UIViewController,UITableViewDataSource,UITable
     
     
     func fetchCast(){
-        httpGETRequest(urlString: baseURL+"3/movie/"+String(movie!.id)+"/credits") { (data, error) in
+        httpGETRequest(urlString: MoviesAPI.Endpoints.baseURL+"movie/"+String(movie!.id)+"/credits") { (data, error) in
             guard let data = data else{return}
             guard let jsonResponse = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] else{return}
             guard let cast = jsonResponse["cast"] as? NSArray else{return}
             for character in cast{
                 guard var r =  try? Cast(from: character) else{return}
-                httpGETRequest(urlString: postersBaseURL+r.photoIdentifier) { (data, error) in
+                httpGETRequest(urlString: MoviesAPI.Endpoints.postersBaseURL+r.photoIdentifier) { (data, error) in
                     guard let data = data else{return}
                     r.photoData = data
-                    httpGETRequest(urlString: baseURL+"3/person/"+String(r.id)) { (data, error) in
+                    httpGETRequest(urlString: MoviesAPI.Endpoints.FetchPersonURL.stringValue + String(r.id) ) { (data, error) in
                         guard let data = data else{return}
                         guard let jsonResponse = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] else{return}
                         guard let bio = jsonResponse["biography"] as? String else{return}
