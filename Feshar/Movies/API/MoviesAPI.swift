@@ -83,8 +83,6 @@ func httpGETRequest( urlString: String, completion: @escaping ( _ responseData: 
         urlStringWithKey = urlStringWithKey + "?api_key=" + API_KEY
     }
     
-    print(urlStringWithKey)
-    
     let url = URL(string: urlStringWithKey)
     
     
