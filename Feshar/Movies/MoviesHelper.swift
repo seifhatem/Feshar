@@ -46,7 +46,7 @@ func fetcPostersForWatchList(completion: @escaping () -> Void){
 }
 
 func addToWatchList(movie: Movie){
-    let postData = try! JSONEncoder().encode(AddToWachListRequest(media_id: movie.id))
+    let postData = try! JSONEncoder().encode(AppendWatchListRequest(movie_id: movie.id,movie_watchlist: true))
     httpPOSTRequest(urlString: MoviesAPI.Endpoints.AddToWachListURL.stringValue, postData: postData){ (data, error) in
     }
     watchList.append(movie)
@@ -56,8 +56,11 @@ func addToWatchList(movie: Movie){
 
 
 func removeFromWatchList(index: Int){
+    let postData = try! JSONEncoder().encode(AppendWatchListRequest(movie_id: watchList[index].id,movie_watchlist: false))
     watchList.remove(at: index)
-    //saveWatchList()
+    httpPOSTRequest(urlString: MoviesAPI.Endpoints.DeleteFromWatchListURL.stringValue, postData: postData) { (data, error) in
+    }
+    
 }
 
 //func fetchWatchList()->[Movie]{

@@ -25,6 +25,7 @@ class MoviesAPI{
         case CreateSessionWithLoginURL
         case CreateSessionURL
         case GetWatchListURL
+        case DeleteFromWatchListURL
         case AddToWachListURL
         
         var stringValue: String {
@@ -37,6 +38,7 @@ class MoviesAPI{
             case .GetWatchListURL: return Endpoints.baseURL + "account/1/watchlist/movies?session_id="
             case .AddToWachListURL: return Endpoints.baseURL + "account/1/watchlist?session_id="
             case .CreateSessionURL: return Endpoints.baseURL + "authentication/session/new"
+            case .DeleteFromWatchListURL: return Endpoints.baseURL + "account/1/movie_watchlist?session_id="
                 
             }
         }
