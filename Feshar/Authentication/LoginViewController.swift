@@ -16,6 +16,8 @@ class LoginViewController: UIViewController{
     @IBOutlet weak var loginButton: UIButton!
     
     override func viewDidLoad() {
+        usernameTxtBox.text = "seifhatem"
+        passwordTxtBox.text = "Robusta.123"
         super.viewDidLoad()
     }
     //Username and password should be required fields. If the user forgets to input either, a UIAlert should appear to warn them.
@@ -37,14 +39,25 @@ class LoginViewController: UIViewController{
                         do{
                             let loginData = try JSONEncoder().encode(CreateSessionWithLoginRequest(username: enteredUsername, password: enteredPassword, request_token: responseObject.request_token))
                             
-                            httpPOSTRequest(urlString: MoviesAPI.Endpoints.CreateSessionURL.stringValue, postData: loginData) { (data, error) in
+                            httpPOSTRequest(urlString: MoviesAPI.Endpoints.CreateSessionWithLoginURL.stringValue, postData: loginData) { (data, error) in
                                 
-                                    if error != nil {self.popAlertWithMessage("Authentication Failed");return;}
-                                    loginSession = try! decoder.decode(CreateSessionWithLoginResponse.self, from: data!)
-                                if loginSession?.success ?? false
+                                if error != nil {self.popAlertWithMessage("Authentication Failed");return;}
+                                let responseObject = try! decoder.decode(CreateSessionWithLoginResponse.self, from: data!)
+                                if responseObject.success ?? false
                                 {
-                                    //TODO: Implement Auto Login
-                                    DispatchQueue.main.async {self.showSuccessfulLoginVC(withUsername: enteredUsername)}
+                                    do{
+                          let postData = try JSONEncoder().encode(CreateSessionRequest(request_token: responseObject.request_token!))
+                                        httpPOSTRequest(urlString: MoviesAPI.Endpoints.CreateSessionURL.stringValue, postData: postData) { (data, error) in
+                                        loginSession = try! decoder.decode(CreateSessionResponse.self, from: data!)
+                                       //TODO: Implement Auto Login
+
+                                            if loginSession?.success ?? false{
+                                        DispatchQueue.main.async {self.showSuccessfulLoginVC(withUsername: enteredUsername)}
+                                            }else{self.popAlertWithMessage("Could not create session");return;}
+                                        }
+                      }catch{self.popAlertWithMessage("Could not create session");return;}
+                      
+                  
                                 }
                                 else{
                                     self.popAlertWithMessage("Authentication Failed");return;
@@ -77,13 +90,13 @@ class LoginViewController: UIViewController{
     
     
     func popAlertWithMessage(_ message: String){
-
+        
         DispatchQueue.main.async {
             //alert is called so the login process is definitely complete so reenable controls
             self.changeLoginFormStatus()
-        let alert = UIAlertController.init(title: "Login Error", message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Got it", style: .default, handler: nil))
-        self.present(alert, animated: true, completion: nil)
+            let alert = UIAlertController.init(title: "Login Error", message: message, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Got it", style: .default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
         }
     }
     
@@ -95,7 +108,7 @@ class LoginViewController: UIViewController{
     }
     
     func showSuccessfulLoginVC(withUsername: String){
-      
+        
         let successfulLoginVC = storyboard?.instantiateViewController(withIdentifier: "SuccessfulLoginViewController") as! SuccessfulLoginViewController
         
         successfulLoginVC.modalPresentationStyle = .fullScreen
@@ -103,5 +116,5 @@ class LoginViewController: UIViewController{
         successfulLoginVC.loggedinUserLabel.text = withUsername
         
     }
-
+    
 }
