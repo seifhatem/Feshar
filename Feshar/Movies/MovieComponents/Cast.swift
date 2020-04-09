@@ -10,10 +10,13 @@ import Foundation
 
 struct Cast: Decodable{
     var name: String
+    var id: Int
     var photoIdentifier: String
     var photoData: Data?
+    var bio: String?
     
     enum CodingKeys: String, CodingKey {
+        case id = "id"
         case name = "name"
         case photoIdentifier = "profile_path"
     }
