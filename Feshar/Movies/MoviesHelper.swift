@@ -76,7 +76,7 @@ func isInWatchList(_ movie: Movie)->Bool{
 }
 
 func fetchGenreList(completion: @escaping()->Void){
-    httpGETRequest(urlString: MoviesAPI.Endpoints.GetMovieGenreList.urlString) { (data, error) in
+    httpGETRequest(urlString: MoviesAPI.Endpoints.GetMovieGenreListURL.urlString) { (data, error) in
         if error != nil {return;}
         guard let data = data else{return;}
         let arrayOfGenres = (try! JSONSerialization.jsonObject(with: data, options: .mutableContainers) as! Dictionary<String, Any>)["genres"] as! [Dictionary<String, Any>]
@@ -89,6 +89,8 @@ func fetchGenreList(completion: @escaping()->Void){
         completion()
     }
 }
+
+
 
 //func removeFromWatchList(movie: Movie){
 //    if let index =  watchList.firstIndex(of: movie){

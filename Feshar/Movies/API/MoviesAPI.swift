@@ -27,12 +27,14 @@ class MoviesAPI{
         case GetWatchListURL
         case DeleteFromWatchListURL
         case AddToWachListURL
-        case GetMovieGenreList
+        case GetMovieGenreListURL
+        case SearchMoviesURL
         
+
         var urlString: String {
             switch self {
             case .CreateRquestTokenURL: return Endpoints.baseURL + "authentication/token/new"
-            case .FetchMoviesListURL: return Endpoints.baseURL + "trending/movie/week?page=1&sort_by=release_date.desc"
+            case .FetchMoviesListURL: return Endpoints.baseURL + "trending/movie/week?page=1&sort_by=release_date.desc&include_adult=false"
             case .FetchPosterImageURL:  return Endpoints.postersBaseURL
             case .FetchPersonURL:    return Endpoints.baseURL + "person/"
             case .CreateSessionWithLoginURL: return Endpoints.baseURL + "authentication/token/validate_with_login"
@@ -40,17 +42,16 @@ class MoviesAPI{
             case .AddToWachListURL: return Endpoints.baseURL + "account/1/watchlist?session_id="
             case .CreateSessionURL: return Endpoints.baseURL + "authentication/session/new"
             case .DeleteFromWatchListURL: return Endpoints.baseURL + "account/1/movie_watchlist?session_id="
-            case .GetMovieGenreList: return Endpoints.baseURL + "genre/movie/list"
-                
+            case .GetMovieGenreListURL: return Endpoints.baseURL + "genre/movie/list"
+            case .SearchMoviesURL: return Endpoints.baseURL + "search/movie?page=1&include_adult=false&query="
             }
         }
         
     }
 }
 func httpGETRequest( urlString: String, completion: @escaping ( _ responseData: Data?, _ error: Error?) -> Void){
-    let urlStringWithKey = appendKeysToURL(urlString: urlString)
+    let urlStringWithKey = appendKeysToURL(urlString: urlString).addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
     
-    let url = URL(string: urlStringWithKey)
     
     
     let configuration = URLSessionConfiguration.default
@@ -58,8 +59,8 @@ func httpGETRequest( urlString: String, completion: @escaping ( _ responseData: 
     
     let backgroundSession = URLSession(configuration: configuration)
     
-    
-    let task = backgroundSession.dataTask(with: url!) {data, httpresponse, error in
+    if let urlStringWithKey=urlStringWithKey, let url = URL(string: urlStringWithKey){
+    let task = backgroundSession.dataTask(with: url) {data, httpresponse, error in
         
         //print("HTTP request completed")
         if let error = error{
@@ -71,21 +72,25 @@ func httpGETRequest( urlString: String, completion: @escaping ( _ responseData: 
             
         } else{
             print("Returned data is nil")
-            return
         }
+        //print("hi \(error!.localizedDescription)")
         
         completion(data,error)
         
     }
+        task.resume()
+    }
+    else{
+        completion(nil,nil)
+    }
     
-    task.resume()
+    
     //print("HTTP Request started")
     
 }
 
 func httpPOSTRequest(urlString: String, postData: Data, completion: @escaping ( _ responseData: Data?, _ error: Error?) -> Void){
   let urlStringWithKey = appendKeysToURL(urlString: urlString)
-    print(urlStringWithKey)
     
     let url = URL(string: urlStringWithKey)
     
@@ -103,7 +108,8 @@ func httpPOSTRequest(urlString: String, postData: Data, completion: @escaping ( 
         
         //print("HTTP request completed")
         if let error = error{
-            print("HTTP Request Error: " + error.localizedDescription)
+           print("HTTP Request Error: " + error.localizedDescription)
+        
         }
         
         if let _ = data{
@@ -111,7 +117,6 @@ func httpPOSTRequest(urlString: String, postData: Data, completion: @escaping ( 
             
         } else{
             print("Returned data is nil")
-            return
         }
         
         completion(data,error)
