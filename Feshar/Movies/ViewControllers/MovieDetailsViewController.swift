@@ -43,7 +43,7 @@ class MovieDetailsViewController: UIViewController,UITableViewDataSource,UITable
                 httpGETRequest(urlString: MoviesAPI.Endpoints.postersBaseURL+r.photoIdentifier) { (data, error) in
                     guard let data = data else{return}
                     r.photoData = data
-                    httpGETRequest(urlString: MoviesAPI.Endpoints.FetchPersonURL.stringValue + String(r.id) ) { (data, error) in
+                    httpGETRequest(urlString: MoviesAPI.Endpoints.FetchPersonURL.urlString + String(r.id) ) { (data, error) in
                         guard let data = data else{return}
                         guard let jsonResponse = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] else{return}
                         guard let bio = jsonResponse["biography"] as? String else{return}

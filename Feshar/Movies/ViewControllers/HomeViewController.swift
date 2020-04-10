@@ -47,13 +47,13 @@ class HomeViewController: UIViewController,UITableViewDataSource,UITableViewDele
     }
     
     func fetchMoviesList(){
-        httpGETRequest(urlString: MoviesAPI.Endpoints.FetchMoviesListURL.stringValue) { (data, error) in
+        httpGETRequest(urlString: MoviesAPI.Endpoints.FetchMoviesListURL.urlString) { (data, error) in
             guard let data = data else{return}
             guard let jsonResponse = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] else{return}
             guard let movies = jsonResponse["results"] as? NSArray else{return}
             for movie in movies{
                 var r =  try! Movie(from: movie)
-                httpGETRequest(urlString: MoviesAPI.Endpoints.FetchPosterImageURL.stringValue + r.posterIdentifier) { (data, error) in
+                httpGETRequest(urlString: MoviesAPI.Endpoints.FetchPosterImageURL.urlString + r.posterIdentifier) { (data, error) in
                     guard let data = data else{return}
                     r.posterData = data
                     self.moviesList.append(r)

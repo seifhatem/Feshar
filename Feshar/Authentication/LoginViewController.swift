@@ -31,7 +31,7 @@ class LoginViewController: UIViewController{
         if let enteredUsername  = usernameTxtBox.text, let enteredPassword = passwordTxtBox.text{
             if credentialsValidationCheck(username: enteredUsername, password: enteredPassword){
                 //get request token
-                httpGETRequest(urlString: MoviesAPI.Endpoints.CreateRquestTokenURL.stringValue) { (data, error) in
+                httpGETRequest(urlString: MoviesAPI.Endpoints.CreateRquestTokenURL.urlString) { (data, error) in
                     if error != nil {self.popAlertWithMessage("Couldn't communicate with the server");return;}
                     do {
                         let responseObject = try decoder.decode(CreateRequestTokenResponse.self, from: data!)
@@ -39,7 +39,7 @@ class LoginViewController: UIViewController{
                         do{
                             let loginData = try JSONEncoder().encode(CreateSessionWithLoginRequest(username: enteredUsername, password: enteredPassword, request_token: responseObject.request_token))
                             
-                            httpPOSTRequest(urlString: MoviesAPI.Endpoints.CreateSessionWithLoginURL.stringValue, postData: loginData) { (data, error) in
+                            httpPOSTRequest(urlString: MoviesAPI.Endpoints.CreateSessionWithLoginURL.urlString, postData: loginData) { (data, error) in
                                 
                                 if error != nil {self.popAlertWithMessage("Authentication Failed");return;}
                                 let responseObject = try! decoder.decode(CreateSessionWithLoginResponse.self, from: data!)
@@ -47,7 +47,7 @@ class LoginViewController: UIViewController{
                                 {
                                     do{
                           let postData = try JSONEncoder().encode(CreateSessionRequest(request_token: responseObject.request_token!))
-                                        httpPOSTRequest(urlString: MoviesAPI.Endpoints.CreateSessionURL.stringValue, postData: postData) { (data, error) in
+                                        httpPOSTRequest(urlString: MoviesAPI.Endpoints.CreateSessionURL.urlString, postData: postData) { (data, error) in
                                         loginSession = try! decoder.decode(CreateSessionResponse.self, from: data!)
                                        //TODO: Implement Auto Login
 

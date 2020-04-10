@@ -13,7 +13,7 @@ var watchList:  [Movie] = [Movie]()
 
 
 func fetchWatchList(completion: @escaping () -> Void){
-    httpGETRequest(urlString: MoviesAPI.Endpoints.GetWatchListURL.stringValue) { (data, error) in
+    httpGETRequest(urlString: MoviesAPI.Endpoints.GetWatchListURL.urlString) { (data, error) in
         if error != nil {return;}
         guard let data = data else{return;}
         watchList = try! JSONDecoder().decode(GetWatchListResponse.self, from: data).results
@@ -27,7 +27,7 @@ func fetchWatchList(completion: @escaping () -> Void){
 func fetcPostersForWatchList(completion: @escaping () -> Void){
     for i in 0..<watchList.count{
     var movie = watchList[i]
-    httpGETRequest(urlString: MoviesAPI.Endpoints.FetchPosterImageURL.stringValue + movie.posterIdentifier) { (data, error) in
+    httpGETRequest(urlString: MoviesAPI.Endpoints.FetchPosterImageURL.urlString + movie.posterIdentifier) { (data, error) in
         guard let data = data else{return}
         movie.posterData = data
         watchList[i] = movie
@@ -38,7 +38,7 @@ func fetcPostersForWatchList(completion: @escaping () -> Void){
 
 func addToWatchList(movie: Movie){
     let postData = try! JSONEncoder().encode(AppendWatchListRequest(movie_id: movie.id,movie_watchlist: true))
-    httpPOSTRequest(urlString: MoviesAPI.Endpoints.AddToWachListURL.stringValue, postData: postData){ (data, error) in
+    httpPOSTRequest(urlString: MoviesAPI.Endpoints.AddToWachListURL.urlString, postData: postData){ (data, error) in
     }
     watchList.append(movie)
     
@@ -49,7 +49,7 @@ func addToWatchList(movie: Movie){
 func removeFromWatchList(index: Int){
     let postData = try! JSONEncoder().encode(AppendWatchListRequest(movie_id: watchList[index].id,movie_watchlist: false))
     watchList.remove(at: index)
-    httpPOSTRequest(urlString: MoviesAPI.Endpoints.DeleteFromWatchListURL.stringValue, postData: postData) { (data, error) in
+    httpPOSTRequest(urlString: MoviesAPI.Endpoints.DeleteFromWatchListURL.urlString, postData: postData) { (data, error) in
     }
     
 }

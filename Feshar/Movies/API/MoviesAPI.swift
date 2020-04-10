@@ -27,8 +27,9 @@ class MoviesAPI{
         case GetWatchListURL
         case DeleteFromWatchListURL
         case AddToWachListURL
+        case GetMovieGenreList
         
-        var stringValue: String {
+        var urlString: String {
             switch self {
             case .CreateRquestTokenURL: return Endpoints.baseURL + "authentication/token/new"
             case .FetchMoviesListURL: return Endpoints.baseURL + "trending/movie/week?page=1&sort_by=release_date.desc"
@@ -39,32 +40,12 @@ class MoviesAPI{
             case .AddToWachListURL: return Endpoints.baseURL + "account/1/watchlist?session_id="
             case .CreateSessionURL: return Endpoints.baseURL + "authentication/session/new"
             case .DeleteFromWatchListURL: return Endpoints.baseURL + "account/1/movie_watchlist?session_id="
+            case .GetMovieGenreList: return Endpoints.baseURL + "genre/movie/list"
                 
             }
         }
         
     }
-    
-    //        func createRequestToken() -> CreateRequestTokenResponse?{
-    //            var data = httpGETRequest(urlString: Endpoints.CreateRquestTokenURL.stringValue) { (responseData, error) in
-    //                if error != nil {
-    //                    return nil
-    //                }
-    //
-    //                guard let responseData = responseData else{return nil}
-    //                return responseData
-    //            }
-    //
-    //            let decoder = JSONDecoder()
-    //            do {
-    //                let responseObject = try decoder.decode(CreateRequestTokenResponse.self, from: data)
-    //                return responseObject
-    //            } catch {
-    //               return nil
-    //            }
-    //
-    //
-    //        }
 }
 func httpGETRequest( urlString: String, completion: @escaping ( _ responseData: Data?, _ error: Error?) -> Void){
     let urlStringWithKey = appendKeysToURL(urlString: urlString)
