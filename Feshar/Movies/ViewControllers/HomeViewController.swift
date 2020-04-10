@@ -14,34 +14,55 @@ class HomeViewController: UIViewController,UITableViewDataSource,UITableViewDele
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var filterButtonsCollection: UICollectionView!
     @IBOutlet weak var searchBar: UISearchBar!
+    @IBOutlet weak var searchingSpinnerView: UIView!
+    
     
     //var moviesList = fetchMoviesList()
-    var moviesList = [Movie](){
+    //    var moviesList = [Movie](){
+    //        didSet{
+    //            var newFilters = ["All"]
+    //            let fullFilterList = genreList.map {$0.value}
+    //            for i in 0..<fullFilterList.count{
+    //                if getMoviesCountWithGenre(genre: fullFilterList[i]) > 0{
+    //                    newFilters.append(fullFilterList[i])
+    //                }
+    //            }
+    //            filters = newFilters
+    //
+    //            DispatchQueue.main.async{
+    //                self.filterButtonsCollection.reloadData()
+    //            }
+    //        }
+    //    }
+    var moviesList = [Movie]()
+    var filteredMovies: [Movie] = []{
         didSet{
-            var newFilters = ["All"]
-            let fullFilterList = genreList.map {$0.value}
-            for i in 0..<fullFilterList.count{
-                if getMoviesCountWithGenre(genre: fullFilterList[i]) > 0{
-                    newFilters.append(fullFilterList[i])
+            if filteredMovies.count == 0{
+                DispatchQueue.main.async {
+                    self.tableView.isHidden = true
                 }
             }
-            filters = newFilters
-            
-            DispatchQueue.main.async{
-                self.filterButtonsCollection.reloadData()
+            else
+            {
+                DispatchQueue.main.async {
+                    self.tableView.isHidden = false
+                }
+                
             }
         }
     }
-    var filteredMovies: [Movie] = []
+    var initialMoviesList: [Movie] = []
+    
     
     var allButton: UIButton?
     var filterButtons = [UIButton]()
     var lastSelectedFilterButton: UIButton?
     var searchThread: DispatchWorkItem?
-    var moviesListBeforeSearch: [Movie]?
+    
+    
     
     var filters = ["All"]
-        //genre.allCases.map { $0.rawValue }
+    //genre.allCases.map { $0.rawValue }
     
     
     override func viewDidLoad() {
@@ -65,7 +86,7 @@ class HomeViewController: UIViewController,UITableViewDataSource,UITableViewDele
             self.fetchMoviesList()
             fetchWatchList {}
         }
-
+        
     }
     
     func getMoviesCountWithGenre(genre: String)->Int{
@@ -99,6 +120,7 @@ class HomeViewController: UIViewController,UITableViewDataSource,UITableViewDele
                     self.moviesList.append(r)
                     passedMovies = self.moviesList
                     self.filteredMovies = self.moviesList
+                    self.initialMoviesList = self.moviesList
                     DispatchQueue.main.async {self.tableView.reloadData()}
                 }
             }
@@ -124,24 +146,24 @@ class HomeViewController: UIViewController,UITableViewDataSource,UITableViewDele
     
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String){
+        
         setAllButtonsAsUnclickedExcept(allButton!)
         self.searchThread?.cancel()
-        
         if isSearchBarEmpty {
-            if let moviesListBeforeSearch=moviesListBeforeSearch{
-            moviesList = moviesListBeforeSearch
-            }
+            moviesList = initialMoviesList
             filteredMovies = moviesList
             tableView.reloadData()
         }
         else{
+           
             let searchThread = DispatchWorkItem { [weak self] in
                 self!.filterContentForSearchText(searchBar.text!)
             }
             DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: searchThread)
             self.searchThread = searchThread
-           
+            
         }
+        
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -150,24 +172,57 @@ class HomeViewController: UIViewController,UITableViewDataSource,UITableViewDele
     }
     
     func filterContentForSearchText(_ searchText: String) {
-        moviesListBeforeSearch = moviesList
         lastSelectedFilterButton = allButton
-        filteredMovies = moviesList.filter { (movie: Movie) -> Bool in
-            return movie.title.lowercased().contains(searchText.lowercased())
+        //        filteredMovies = moviesList.filter { (movie: Movie) -> Bool in
+        //            return movie.title.lowercased().contains(searchText.lowercased())
+        //        }
+        searchingSpinnerView.isHidden = false
+        self.moviesList.removeAll()
+        self.filteredMovies.removeAll()
+        DispatchQueue.main.async {self.tableView.reloadData()}
+        httpGETRequest(urlString: MoviesAPI.Endpoints.SearchMoviesURL.urlString+searchText) { (data, error) in
+            guard let data = data else{DispatchQueue.main.async {self.tableView.reloadData();self.searchingSpinnerView.isHidden = true;};return;}
+            guard let jsonResponse = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] else{DispatchQueue.main.async {self.tableView.reloadData();self.searchingSpinnerView.isHidden = true;};return;}
+            guard let movies = jsonResponse["results"] as? NSArray else{DispatchQueue.main.async {self.tableView.reloadData();self.searchingSpinnerView.isHidden = true;};return;}
+            if movies.count == 0 { DispatchQueue.main.async {self.searchingSpinnerView.isHidden = true;}}
+            for movie in movies{
+                if var r =  try? Movie(from: movie){
+                    httpGETRequest(urlString: MoviesAPI.Endpoints.FetchPosterImageURL.urlString + r.posterIdentifier) { (data, error) in
+                        guard let data = data else{self.searchingSpinnerView.isHidden = true;return;}
+                        r.posterData = data
+                        r.genresString = [String]()
+                        for genreId in r.genres{
+                            
+                            if let genreString = genreList[genreId]{
+                                r.genresString?.append(genreString)
+                            }
+                            
+                        }
+                        self.moviesList.append(r)
+                        passedMovies = self.moviesList
+                        self.filteredMovies = self.moviesList
+                        DispatchQueue.main.async {self.searchingSpinnerView.isHidden = true;self.tableView.reloadData();}
+                    }
+                }
+            }
+            
         }
-        tableView.reloadData()
     }
     
     func filterContentForGenre(_ genreText: String) {
         filteredMovies = moviesList.filter { (movie: Movie) -> Bool in
             return movie.genresString!.contains(genreText)
         }
-
+        
         tableView.reloadData()
     }
     
     @objc func filterButtonTapped(_ sender: UIButton) {
         lastSelectedFilterButton = sender
+        if searchBar.text!.count>0{
+            moviesList = initialMoviesList
+            filteredMovies = moviesList
+        }
         searchBar.text = ""
         searchBar.resignFirstResponder()
         if String(sender.title(for: .normal)!) == "All"{
@@ -214,7 +269,7 @@ class HomeViewController: UIViewController,UITableViewDataSource,UITableViewDele
             activityViewController.popoverPresentationController?.sourceView = self.view
             present(activityViewController, animated: true, completion: nil)
         }else{
-            print("There is nothing to share")
+            //print("There is nothing to share")
         }
     }
     
@@ -268,10 +323,10 @@ class HomeViewController: UIViewController,UITableViewDataSource,UITableViewDele
         
         let installedButtons = cell.contentView.subviews.filter{$0 is UIButton}
         if installedButtons.count>0, let installedButton = installedButtons[0] as? UIButton{
-        installedButton.removeFromSuperview()
-        filterButtons.removeAll { (button: UIButton) -> Bool in
-           return button == installedButton
-        }
+            installedButton.removeFromSuperview()
+            filterButtons.removeAll { (button: UIButton) -> Bool in
+                return button == installedButton
+            }
         }
         
         let button = UIButton()
@@ -290,12 +345,12 @@ class HomeViewController: UIViewController,UITableViewDataSource,UITableViewDele
         cell.contentView.addSubview(button)
         
         filterButtons.append(button)
-
+        
         if (button.titleLabel?.text == "All"){ allButton = button}
         
         if let selectedButton = lastSelectedFilterButton {
             if(selectedButton.titleLabel?.text == button.titleLabel?.text){
-            setButtonAsClicked(button)
+                setButtonAsClicked(button)
             }
         }
         else{
