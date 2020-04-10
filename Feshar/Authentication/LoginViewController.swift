@@ -14,8 +14,10 @@ class LoginViewController: UIViewController{
     @IBOutlet weak var passwordTxtBox: UITextField!
     @IBOutlet weak var autoLoginSwitch: UISwitch!
     @IBOutlet weak var loginButton: UIButton!
+    @IBOutlet weak var loginSpinnerView: UIView!
     
     override func viewDidLoad() {
+        //self.view.bringSubviewToFront(loginSpinnerView)
         usernameTxtBox.text = "seifhatem"
         passwordTxtBox.text = "Robusta.123"
         super.viewDidLoad()
@@ -26,12 +28,13 @@ class LoginViewController: UIViewController{
     @IBAction func loginBtnTapped(_ sender: Any) {
         //disable login form controls
         changeLoginFormStatus()
-        
+        loginSpinnerView.isHidden = false
         let decoder = JSONDecoder()
         if let enteredUsername  = usernameTxtBox.text, let enteredPassword = passwordTxtBox.text{
             if credentialsValidationCheck(username: enteredUsername, password: enteredPassword){
                 //get request token
                 httpGETRequest(urlString: MoviesAPI.Endpoints.CreateRquestTokenURL.urlString) { (data, error) in
+                    
                     if error != nil {self.popAlertWithMessage("Couldn't communicate with the server");return;}
                     do {
                         let responseObject = try decoder.decode(CreateRequestTokenResponse.self, from: data!)
@@ -40,7 +43,7 @@ class LoginViewController: UIViewController{
                             let loginData = try JSONEncoder().encode(CreateSessionWithLoginRequest(username: enteredUsername, password: enteredPassword, request_token: responseObject.request_token))
                             
                             httpPOSTRequest(urlString: MoviesAPI.Endpoints.CreateSessionWithLoginURL.urlString, postData: loginData) { (data, error) in
-                                
+                                 
                                 if error != nil {self.popAlertWithMessage("Authentication Failed");return;}
                                 let responseObject = try! decoder.decode(CreateSessionWithLoginResponse.self, from: data!)
                                 if responseObject.success ?? false
@@ -48,6 +51,7 @@ class LoginViewController: UIViewController{
                                     do{
                           let postData = try JSONEncoder().encode(CreateSessionRequest(request_token: responseObject.request_token!))
                                         httpPOSTRequest(urlString: MoviesAPI.Endpoints.CreateSessionURL.urlString, postData: postData) { (data, error) in
+                                            if error != nil {self.popAlertWithMessage("Authentication Failed");return;}
                                         loginSession = try! decoder.decode(CreateSessionResponse.self, from: data!)
                                        //TODO: Implement Auto Login
 
@@ -90,9 +94,11 @@ class LoginViewController: UIViewController{
     
     
     func popAlertWithMessage(_ message: String){
-        
+       
         DispatchQueue.main.async {
+            
             //alert is called so the login process is definitely complete so reenable controls
+             self.loginSpinnerView.isHidden = true
             self.changeLoginFormStatus()
             let alert = UIAlertController.init(title: "Login Error", message: message, preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "Got it", style: .default, handler: nil))
