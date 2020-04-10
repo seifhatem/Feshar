@@ -121,6 +121,9 @@ class LoginViewController: UIViewController{
 //        present(successfulLoginVC, animated: true, completion: nil)
 //        successfulLoginVC.loggedinUserLabel.text = withUsername
         
+        loginSpinnerView.isHidden = true
+        usernameTxtBox.text = ""
+        passwordTxtBox.text = ""
         let HomeVC = storyboard?.instantiateViewController(withIdentifier: "TabBarViewController") as! TabBarViewController
         
         HomeVC.modalPresentationStyle = .fullScreen

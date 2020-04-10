@@ -9,6 +9,7 @@
 import Foundation
 fileprivate let API_KEY = "837a91247630f256e2090a53ce2c831b"
 var loginSession: CreateSessionResponse?
+var allowCellularAccess = false
 
 class MoviesAPI{
     
@@ -29,7 +30,7 @@ class MoviesAPI{
         case AddToWachListURL
         case GetMovieGenreListURL
         case SearchMoviesURL
-        
+        case DeleteSessionURL
 
         var urlString: String {
             switch self {
@@ -44,6 +45,7 @@ class MoviesAPI{
             case .DeleteFromWatchListURL: return Endpoints.baseURL + "account/1/movie_watchlist?session_id="
             case .GetMovieGenreListURL: return Endpoints.baseURL + "genre/movie/list"
             case .SearchMoviesURL: return Endpoints.baseURL + "search/movie?page=1&include_adult=false&query="
+            case .DeleteSessionURL: return Endpoints.baseURL + "authentication/session"
             }
         }
         
@@ -55,7 +57,7 @@ func httpGETRequest( urlString: String, completion: @escaping ( _ responseData: 
     
     
     let configuration = URLSessionConfiguration.default
-    configuration.allowsCellularAccess = false
+    configuration.allowsCellularAccess = allowCellularAccess
     
     let backgroundSession = URLSession(configuration: configuration)
     
@@ -96,7 +98,7 @@ func httpPOSTRequest(urlString: String, postData: Data, completion: @escaping ( 
     
     
     let configuration = URLSessionConfiguration.default
-    configuration.allowsCellularAccess = false
+    configuration.allowsCellularAccess = allowCellularAccess
     let backgroundSession = URLSession(configuration: configuration)
 
     var request = URLRequest(url: url!)
@@ -128,6 +130,37 @@ func httpPOSTRequest(urlString: String, postData: Data, completion: @escaping ( 
     
 }
 
+func deleteSession(){
+    let url = URL(string: appendKeysToURL(urlString: MoviesAPI.Endpoints.DeleteSessionURL.urlString))
+       
+       
+       let configuration = URLSessionConfiguration.default
+       configuration.allowsCellularAccess = allowCellularAccess
+       let backgroundSession = URLSession(configuration: configuration)
+
+       var request = URLRequest(url: url!)
+       request.httpMethod = "DELETE"
+       request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+    request.httpBody = try! JSONEncoder().encode(LogoutRequest(session_id: loginSession!.session_id!))
+        let task = backgroundSession.dataTask(with: request) {data, httpresponse, error in
+            
+            //print("HTTP request completed")
+            if let error = error{
+               print("HTTP Request Error: " + error.localizedDescription)
+            }
+            
+            if let _ = data{
+                
+                
+            } else{
+                print("Returned data is nil")
+            }
+            
+        }
+        
+        task.resume()
+    }
+    
 func appendKeysToURL(urlString: String) -> String{
     var urlStringWithKey = ""
     
