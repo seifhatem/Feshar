@@ -115,11 +115,16 @@ class LoginViewController: UIViewController{
     
     func showSuccessfulLoginVC(withUsername: String){
         
-        let successfulLoginVC = storyboard?.instantiateViewController(withIdentifier: "SuccessfulLoginViewController") as! SuccessfulLoginViewController
+//        let successfulLoginVC = storyboard?.instantiateViewController(withIdentifier: "SuccessfulLoginViewController") as! SuccessfulLoginViewController
+//
+//        successfulLoginVC.modalPresentationStyle = .fullScreen
+//        present(successfulLoginVC, animated: true, completion: nil)
+//        successfulLoginVC.loggedinUserLabel.text = withUsername
         
-        successfulLoginVC.modalPresentationStyle = .fullScreen
-        present(successfulLoginVC, animated: true, completion: nil)
-        successfulLoginVC.loggedinUserLabel.text = withUsername
+        let HomeVC = storyboard?.instantiateViewController(withIdentifier: "TabBarViewController") as! TabBarViewController
+        
+        HomeVC.modalPresentationStyle = .fullScreen
+        present(HomeVC, animated: true, completion: nil)
         
     }
     
