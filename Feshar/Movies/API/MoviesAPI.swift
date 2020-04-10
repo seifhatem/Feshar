@@ -10,6 +10,9 @@ import Foundation
 fileprivate let API_KEY = "837a91247630f256e2090a53ce2c831b"
 var loginSession: CreateSessionResponse?
 var allowCellularAccess = false
+var showAdultContent: Bool{
+    UserDefaults.standard.bool(forKey: "adultContent")
+}
 
 class MoviesAPI{
     
@@ -35,7 +38,7 @@ class MoviesAPI{
         var urlString: String {
             switch self {
             case .CreateRquestTokenURL: return Endpoints.baseURL + "authentication/token/new"
-            case .FetchMoviesListURL: return Endpoints.baseURL + "trending/movie/week?page=1&sort_by=release_date.desc&include_adult=false"
+            case .FetchMoviesListURL: return Endpoints.baseURL + "trending/movie/week?page=1&sort_by=release_date.desc&include_adult=\(showAdultContent)"
             case .FetchPosterImageURL:  return Endpoints.postersBaseURL
             case .FetchPersonURL:    return Endpoints.baseURL + "person/"
             case .CreateSessionWithLoginURL: return Endpoints.baseURL + "authentication/token/validate_with_login"
@@ -44,7 +47,7 @@ class MoviesAPI{
             case .CreateSessionURL: return Endpoints.baseURL + "authentication/session/new"
             case .DeleteFromWatchListURL: return Endpoints.baseURL + "account/1/movie_watchlist?session_id="
             case .GetMovieGenreListURL: return Endpoints.baseURL + "genre/movie/list"
-            case .SearchMoviesURL: return Endpoints.baseURL + "search/movie?page=1&include_adult=false&query="
+            case .SearchMoviesURL: return Endpoints.baseURL + "search/movie?page=1&include_adult=\(showAdultContent)&query="
             case .DeleteSessionURL: return Endpoints.baseURL + "authentication/session"
             }
         }
