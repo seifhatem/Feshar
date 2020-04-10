@@ -163,8 +163,8 @@
                                 <rect key="contentStretch" x="1" y="1" width="1" height="1"/>
                                 <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="default"/>
                                 <variation key="widthClass=compact" image="logo_port"/>
-                                <variation key="heightClass=compact-widthClass=compact" image="268C6EAB-0B93-402F-9DC3-FE3E42FA32BB"/>
-                                <variation key="heightClass=compact-widthClass=regular" image="8D313206-DA1F-4650-85E1-48FA783AF7B9"/>
+                                <variation key="heightClass=compact-widthClass=compact" image="7E41A083-FB5C-4E7B-A699-8722075D5DDE"/>
+                                <variation key="heightClass=compact-widthClass=regular" image="A13B4BF9-6995-4505-AA8D-462651838C1D"/>
                                 <variation key="heightClass=regular-widthClass=regular" image="logo_land"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1Aq-LA-RmR">
@@ -520,32 +520,32 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8UK-R9-GzR">
-                                <rect key="frame" x="0.0" y="292.66666666666674" width="414" height="394.33333333333326"/>
+                                <rect key="frame" x="0.0" y="260" width="414" height="276"/>
                                 <connections>
                                     <segue destination="Gyk-x0-uaG" kind="embed" id="S9r-IB-5Yg"/>
                                 </connections>
                             </containerView>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="person.crop.circle.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="1Rd-22-6HO">
-                                <rect key="frame" x="136" y="70" width="142" height="88.333333333333357"/>
+                                <rect key="frame" x="136" y="70" width="142" height="69.999999999999986"/>
                                 <color key="tintColor" red="1" green="0.0" blue="0.12156862745098039" alpha="1" colorSpace="calibratedRGB"/>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Seif Hatem" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="7" translatesAutoresizingMaskIntoConstraints="NO" id="yby-Uf-N7P">
-                                <rect key="frame" x="136" y="178.66666666666666" width="142" height="30"/>
+                                <rect key="frame" x="136" y="160.33333333333334" width="142" height="23.666666666666657"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="30"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="RJT-Jk-UpC">
-                                <rect key="frame" x="102.33333333333333" y="228.66666666666666" width="209.33333333333337" height="38.999999999999972"/>
+                                <rect key="frame" x="102.33333333333333" y="204" width="209.33333333333337" height="31"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Show Adult Content" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uoO-ed-mJO">
-                                        <rect key="frame" x="0.0" y="0.0" width="152.33333333333334" height="39"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Show Adult Content" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="6" translatesAutoresizingMaskIntoConstraints="NO" id="uoO-ed-mJO">
+                                        <rect key="frame" x="0.0" y="0.0" width="152.33333333333334" height="31"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="1rl-ob-bhV">
-                                        <rect key="frame" x="160.33333333333337" y="0.0" width="51" height="39"/>
+                                        <rect key="frame" x="160.33333333333337" y="0.0" width="51" height="31"/>
                                         <connections>
                                             <action selector="adultContentSwitched:" destination="QLc-oe-Haz" eventType="valueChanged" id="O34-gc-UWA"/>
                                         </connections>
@@ -555,7 +555,9 @@
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
+                            <constraint firstItem="RJT-Jk-UpC" firstAttribute="width" secondItem="f9x-tg-oCq" secondAttribute="width" multiplier="0.505636" id="32E-c3-eK3"/>
                             <constraint firstItem="1Rd-22-6HO" firstAttribute="top" secondItem="wwy-QO-abs" secondAttribute="top" constant="25" id="6B2-3n-cHH"/>
+                            <constraint firstItem="RJT-Jk-UpC" firstAttribute="height" secondItem="f9x-tg-oCq" secondAttribute="height" multiplier="0.0529891" id="71F-Ms-W1q"/>
                             <constraint firstItem="8UK-R9-GzR" firstAttribute="leading" secondItem="wwy-QO-abs" secondAttribute="leading" id="9pu-j6-OBy"/>
                             <constraint firstItem="yby-Uf-N7P" firstAttribute="top" secondItem="1Rd-22-6HO" secondAttribute="bottom" constant="20" id="Cyr-oP-Yk1"/>
                             <constraint firstItem="8UK-R9-GzR" firstAttribute="bottom" secondItem="wwy-QO-abs" secondAttribute="bottom" id="D9z-4P-ows"/>
@@ -1159,17 +1161,17 @@
             <objects>
                 <viewController storyboardIdentifier="WatchListViewController" id="Gyk-x0-uaG" customClass="WishListViewController" customModule="Feshar" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="47p-pD-9kN">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="394.33333333333331"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Watchlist" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6E9-0M-hgF">
-                                <rect key="frame" x="24" y="74" width="133" height="35"/>
+                                <rect key="frame" x="24" y="30" width="133" height="35"/>
                                 <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="30"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="nU9-Eh-xAT">
-                                <rect key="frame" x="0.0" y="117" width="414" height="570"/>
+                                <rect key="frame" x="0.0" y="73" width="414" height="321.33333333333331"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="MovieCell" rowHeight="123" id="lmc-TM-WhL" customClass="MovieTableViewCell" customModule="Feshar">
@@ -1429,7 +1431,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="268C6EAB-0B93-402F-9DC3-FE3E42FA32BB" width="166" height="63">
+        <image name="7E41A083-FB5C-4E7B-A699-8722075D5DDE" width="166" height="63">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGBwpYJHZlcnNpb25ZJGFyY2hpdmVyVCR0b3BYJG9iamVjdHMSAAGGoF8QD05T
 S2V5ZWRBcmNoaXZlctEICVRyb290gAGvEBcLDBkaIRQmKisyNTo9PkNGR0pUXF1hZFUkbnVsbNYNDg8Q
@@ -11457,7 +11459,7 @@ CRnPAAkZ0QAJGdMACRnVAAkrQQAJK0YACStTAAkrVgAJK2MACStoAAkrcAAJK3MACSt4AAkrgAAAAAAA
 AAQBAAAAAAAAAGcAAAAAAAAAAAAAAAAACSuDA
 </mutableData>
         </image>
-        <image name="8D313206-DA1F-4650-85E1-48FA783AF7B9" width="166" height="63">
+        <image name="A13B4BF9-6995-4505-AA8D-462651838C1D" width="166" height="63">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGBwpYJHZlcnNpb25ZJGFyY2hpdmVyVCR0b3BYJG9iamVjdHMSAAGGoF8QD05T
 S2V5ZWRBcmNoaXZlctEICVRyb290gAGvEBALDBkaHyQlKywyNT9HSExPVSRudWxs1g0ODxAREhMUFRYX
@@ -11654,7 +11656,7 @@ AAAAAAAAAAAT5g
         <image name="wand.and.stars" catalog="system" width="64" height="56"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="pmD-ql-p95"/>
+        <segue reference="S9r-IB-5Yg"/>
         <segue reference="KhD-2j-DFy"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -18,35 +18,26 @@ func fetchWatchList(completion: @escaping () -> Void){
         if error != nil {return;}
         guard let data = data else{return;}
         watchList = try! JSONDecoder().decode(GetWatchListResponse.self, from: data).results
-        
-        fetcPostersForWatchList {
-            decodeGenresForWatchList()
-            completion()
+            for i in 0..<watchList.count{
+                 watchList[i].genresString = [String]()
+            for genreId in watchList[i].genres{
+                if let genreString = genreList[genreId]{
+                watchList[i].genresString?.append(genreString)
+                }
+            }
+                httpGETRequest(urlString: MoviesAPI.Endpoints.FetchPosterImageURL.urlString + watchList[i].posterIdentifier) { (data, error) in
+                    guard let data = data else{return}
+                    watchList[i].posterData = data
+                    completion()
+                }
         }
+
         
     }
 }
 
-func fetcPostersForWatchList(completion: @escaping () -> Void){
-    for i in 0..<watchList.count{
-    httpGETRequest(urlString: MoviesAPI.Endpoints.FetchPosterImageURL.urlString + watchList[i].posterIdentifier) { (data, error) in
-        guard let data = data else{return}
-        watchList[i].posterData = data
-        completion()
-    }
-}
-}
 
-func decodeGenresForWatchList(){
-    for i in 0..<watchList.count{
-         watchList[i].genresString = [String]()
-    for genreId in watchList[i].genres{
-        if let genreString = genreList[genreId]{
-        watchList[i].genresString?.append(genreString)
-        }
-    }
-}
-}
+
 
 
 
