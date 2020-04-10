@@ -34,11 +34,13 @@ class MoviesAPI{
         case GetMovieGenreListURL
         case SearchMoviesURL
         case DeleteSessionURL
+        case DiscoverMoviesURL
+        case DiscoverShowsURL
 
         var urlString: String {
             switch self {
             case .CreateRquestTokenURL: return Endpoints.baseURL + "authentication/token/new"
-            case .FetchMoviesListURL: return Endpoints.baseURL + "trending/movie/week?page=1&sort_by=release_date.desc&include_adult=\(showAdultContent)"
+            case .FetchMoviesListURL: return Endpoints.baseURL + "trending/movie/week?page=1&include_adult=\(showAdultContent)"
             case .FetchPosterImageURL:  return Endpoints.postersBaseURL
             case .FetchPersonURL:    return Endpoints.baseURL + "person/"
             case .CreateSessionWithLoginURL: return Endpoints.baseURL + "authentication/token/validate_with_login"
@@ -49,6 +51,8 @@ class MoviesAPI{
             case .GetMovieGenreListURL: return Endpoints.baseURL + "genre/movie/list"
             case .SearchMoviesURL: return Endpoints.baseURL + "search/movie?page=1&include_adult=\(showAdultContent)&query="
             case .DeleteSessionURL: return Endpoints.baseURL + "authentication/session"
+            case .DiscoverMoviesURL: return Endpoints.baseURL + "discover/movie?include_adult=\(showAdultContent)&page=1"
+            case .DiscoverShowsURL: return Endpoints.baseURL + "discover/tv?include_adult=\(showAdultContent)&page=1"
             }
         }
         

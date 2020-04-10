@@ -20,7 +20,7 @@ class MovieDetailsViewController: UIViewController,UITableViewDataSource,UITable
     
     var movie: Movie?
     var castArray = [Cast]()
-    
+    var isTvShow = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -69,13 +69,27 @@ class MovieDetailsViewController: UIViewController,UITableViewDataSource,UITable
         if let poster = movie!.posterData{
             moivePoster?.image = UIImage(data: poster)
         }
-        movieNameLabel?.text = movie!.title
+        if let title = movie!.title{
+            movieNameLabel?.text = title
+        }
+        else
+        {
+               movieNameLabel?.text = movie!.name
+            isTvShow = true
+           
+        }
         genreAndDurationLabel?.text = movie!.genreWithDuration
         imdbLabel?.text = String(movie!.imdbRating)
         descriptionLabel?.text = movie!.description
     }
     
     func updateWatchListButton(){
+        if isTvShow{
+            addToWishListButton.isEnabled = false
+            addToWishListButton.backgroundColor = .darkGray
+             addToWishListButton.setTitle("Movies Only", for: .disabled)
+            return;
+        }
         if (isInWatchList(movie!)){
             addToWishListButton.isEnabled = false
             addToWishListButton.backgroundColor = .darkGray

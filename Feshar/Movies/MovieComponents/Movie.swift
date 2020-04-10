@@ -36,17 +36,24 @@ struct Movie:Equatable,Decodable{
     enum CodingKeys: String, CodingKey {
         case id = "id"
         case title = "title"
+        case name = "name"
         case imdbRating = "vote_average"
         case description = "overview"
         case posterIdentifier = "poster_path"
         case genres = "genre_ids"
+        case firstAirDate = "first_air_date"
     }
     
     var id: Int
-    var title: String
+    var title: String?
+    var name: String?
     var genres: [Int]
     var genresString: [String]?
     var posterIdentifier: String
+    var firstAirDate: String?
+    var isTvShow:Bool{
+        if firstAirDate == nil{return false}else{return true}
+    }
     var posterData: Data?
     var imdbRating: Double
     var description: String

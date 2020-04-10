@@ -11,8 +11,9 @@ import UIKit
 class FeaturedViewController: UIViewController,UITableViewDataSource,UITableViewDelegate {
     @IBOutlet weak var tableView: UITableView!
     
-    var categoryTags: [Tag] = [.New,.Trending,.Action,.Comedy,.Romance]
-    
+    var categoryTags = ["Movies","TV Shows"]
+    var featuredMoviesList = [Movie]()
+    var featuredShowsList = [Movie]()
 
     override func viewDidLoad() {
         
@@ -22,6 +23,63 @@ class FeaturedViewController: UIViewController,UITableViewDataSource,UITableView
         tableView.rowHeight = 185.0
         tableView.separatorColor = UIColor.clear
         setupNavigationBar()
+
+        
+        httpGETRequest(urlString: MoviesAPI.Endpoints.DiscoverMoviesURL.urlString) { (data, error) in
+            guard let data = data else{return}
+            guard let jsonResponse = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] else{return}
+            guard let movies = jsonResponse["results"] as? NSArray else{return}
+            for movie in movies{
+                if var r =  try? Movie(from: movie){
+                httpGETRequest(urlString: MoviesAPI.Endpoints.FetchPosterImageURL.urlString + r.posterIdentifier) { (data, error) in
+                    guard let data = data else{return}
+                    r.posterData = data
+                    r.genresString = [String]()
+                    for genreId in r.genres{
+                        
+                        if let genreString = genreList[genreId]{
+                            r.genresString?.append(genreString)
+                        }
+                        
+                    }
+                    self.featuredMoviesList.append(r)
+                    
+                }
+                   
+                }
+                 DispatchQueue.main.async {self.tableView.reloadData()}
+            }
+            
+        }
+        
+       httpGETRequest(urlString: MoviesAPI.Endpoints.DiscoverShowsURL.urlString) { (data, error) in
+                  guard let data = data else{return}
+                  guard let jsonResponse = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] else{return}
+                  guard let movies = jsonResponse["results"] as? NSArray else{return}
+                  for movie in movies{
+                    if var r =  try? Movie(from: movie){
+                      httpGETRequest(urlString: MoviesAPI.Endpoints.FetchPosterImageURL.urlString + r.posterIdentifier) { (data, error) in
+                          guard let data = data else{return}
+                          r.posterData = data
+                          r.genresString = [String]()
+                          for genreId in r.genres{
+                              
+                              if let genreString = genreList[genreId]{
+                                  r.genresString?.append(genreString)
+                              }
+                              
+                          }
+                          self.featuredShowsList.append(r)
+                          
+                      }
+                    }
+                         
+                      
+                       DispatchQueue.main.async {self.tableView.reloadData()}
+                  }
+                  
+              }
+        
     }
 
     //Custom Navigation Bar
@@ -57,10 +115,14 @@ class FeaturedViewController: UIViewController,UITableViewDataSource,UITableView
        func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
            if let cell = tableView.dequeueReusableCell(withIdentifier: "FeatureCell", for: indexPath) as? FeaturedTableViewCell
        {
-       //cell.categoryTag = categoryTags[indexPath.row]
-       //cell.moviesList = getMoviesWithTag(tag: categoryTags[indexPath.row])
-        cell.moviesList = passedMovies
-           cell.categoryLabel.text = categoryTags[indexPath.row].rawValue.uppercased()
+        if(cell.categoryLabel.text == "Movies"){
+            cell.moviesList = featuredMoviesList
+        }
+        else
+        {
+            cell.moviesList = featuredShowsList
+        }
+           cell.categoryLabel.text = categoryTags[indexPath.row]
            cell.parentController = self
        return cell
        }

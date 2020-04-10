@@ -12,7 +12,13 @@ class FeaturedTableViewCell: UITableViewCell, UICollectionViewDelegate, UICollec
     @IBOutlet weak var categoryLabel: UILabel!
     @IBOutlet weak var collectionView: UICollectionView!
     //var categoryTag : Tag?
-    var moviesList = [Movie]()
+    var moviesList = [Movie](){
+        didSet{
+            DispatchQueue.main.async {
+                self.collectionView.reloadData()
+            }
+        }
+    }
     var parentController: UIViewController?
     
     override func awakeFromNib() {
