@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		A80F39FC2438F3F60082E595 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A80F39FB2438F3F60082E595 /* TabBarViewController.swift */; };
-		A818130E2433211D00643B3B /* Genre.swift in Sources */ = {isa = PBXBuildFile; fileRef = A818130D2433211D00643B3B /* Genre.swift */; };
 		A81813102433214600643B3B /* MovieDummyList.swift in Sources */ = {isa = PBXBuildFile; fileRef = A818130F2433214600643B3B /* MovieDummyList.swift */; };
 		A829198E2431043F000240CC /* MovieDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A829198D2431043F000240CC /* MovieDetailsViewController.swift */; };
 		A82CDCE32433A37B0036814F /* FeaturedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A82CDCE22433A37B0036814F /* FeaturedViewController.swift */; };
@@ -43,7 +42,6 @@
 
 /* Begin PBXFileReference section */
 		A80F39FB2438F3F60082E595 /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
-		A818130D2433211D00643B3B /* Genre.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Genre.swift; sourceTree = "<group>"; };
 		A818130F2433214600643B3B /* MovieDummyList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDummyList.swift; sourceTree = "<group>"; };
 		A829198D2431043F000240CC /* MovieDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailsViewController.swift; sourceTree = "<group>"; };
 		A82CDCE22433A37B0036814F /* FeaturedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeaturedViewController.swift; sourceTree = "<group>"; };
@@ -116,7 +114,6 @@
 			isa = PBXGroup;
 			children = (
 				A8F0A72F2432A30C002AFF29 /* Cast.swift */,
-				A818130D2433211D00643B3B /* Genre.swift */,
 				A8F0A7312432A4B0002AFF29 /* Movie.swift */,
 			);
 			path = MovieComponents;
@@ -305,7 +302,6 @@
 				A829198E2431043F000240CC /* MovieDetailsViewController.swift in Sources */,
 				A8F0A73C2432BBA3002AFF29 /* MovieTableViewCell.swift in Sources */,
 				A889C9EB243EB014007509D5 /* CreateRequestTokenResponse.swift in Sources */,
-				A818130E2433211D00643B3B /* Genre.swift in Sources */,
 				A82F7EAF243C994800B48F15 /* MoviesAPI.swift in Sources */,
 				A889C9F5243EE890007509D5 /* CreateSessionRequest.swift in Sources */,
 				A889C9E8243EAFA8007509D5 /* CreateRequestTokenRequest.swift in Sources */,
