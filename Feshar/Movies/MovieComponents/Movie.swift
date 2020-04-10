@@ -45,10 +45,14 @@ struct Movie:Equatable,Decodable{
     var id: Int
     var title: String
     var genres: [Int]
+    var genresString: [String]?
     var posterIdentifier: String
     var posterData: Data?
     var imdbRating: Double
     var description: String
+    var genreWithDuration: String {
+        return genresString?.joined(separator: "/") ?? ""
+    }
 }
 
 extension Decodable {

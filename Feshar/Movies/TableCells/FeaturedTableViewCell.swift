@@ -11,7 +11,7 @@ import UIKit
 class FeaturedTableViewCell: UITableViewCell, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout  {
     @IBOutlet weak var categoryLabel: UILabel!
     @IBOutlet weak var collectionView: UICollectionView!
-    var categoryTag : Tag?
+    //var categoryTag : Tag?
     var moviesList = [Movie]()
     var parentController: UIViewController?
     

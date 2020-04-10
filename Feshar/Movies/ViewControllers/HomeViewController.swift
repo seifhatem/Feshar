@@ -42,8 +42,11 @@ class HomeViewController: UIViewController,UITableViewDataSource,UITableViewDele
         searchBar.searchTextField.delegate = self
         searchBar.searchBarStyle = .minimal
         
-        fetchMoviesList()
-        fetchWatchList {}
+        fetchGenreList {
+            self.fetchMoviesList()
+            fetchWatchList {}
+        }
+
     }
     
     func fetchMoviesList(){
@@ -56,6 +59,14 @@ class HomeViewController: UIViewController,UITableViewDataSource,UITableViewDele
                 httpGETRequest(urlString: MoviesAPI.Endpoints.FetchPosterImageURL.urlString + r.posterIdentifier) { (data, error) in
                     guard let data = data else{return}
                     r.posterData = data
+                    r.genresString = [String]()
+                    for genreId in r.genres{
+                        
+                        if let genreString = genreList[genreId]{
+                            r.genresString?.append(genreString)
+                        }
+                        
+                    }
                     self.moviesList.append(r)
                     passedMovies = self.moviesList
                     self.filteredMovies = self.moviesList
