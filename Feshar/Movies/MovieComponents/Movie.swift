@@ -39,19 +39,16 @@ struct Movie:Equatable,Decodable{
         case imdbRating = "vote_average"
         case description = "overview"
         case posterIdentifier = "poster_path"
+        case genres = "genre_ids"
     }
     
     var id: Int
     var title: String
+    var genres: [Int]
     var posterIdentifier: String
     var posterData: Data?
     var imdbRating: Double
     var description: String
-    var genreWithDuration: String{
-        get{
-            return ""
-        }
-    }
 }
 
 extension Decodable {
