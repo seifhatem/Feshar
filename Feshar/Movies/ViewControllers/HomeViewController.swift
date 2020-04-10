@@ -16,14 +16,32 @@ class HomeViewController: UIViewController,UITableViewDataSource,UITableViewDele
     @IBOutlet weak var searchBar: UISearchBar!
     
     //var moviesList = fetchMoviesList()
-    var moviesList = [Movie]()
+    var moviesList = [Movie](){
+        didSet{
+            var newFilters = ["All"]
+            let fullFilterList = genreList.map {$0.value}
+            for i in 0..<fullFilterList.count{
+                if getMoviesCountWithGenre(genre: fullFilterList[i]) > 0{
+                    newFilters.append(fullFilterList[i])
+                }
+            }
+            filters = newFilters
+            
+            DispatchQueue.main.async{
+                self.filterButtonsCollection.reloadData()
+            }
+        }
+    }
     var filteredMovies: [Movie] = []
     
     var allButton: UIButton?
     var filterButtons = [UIButton]()
-    var firstFilterButtonInitialized = false
+    var lastSelectedFilterButton: UIButton?
+    var searchThread: DispatchWorkItem?
+    var moviesListBeforeSearch: [Movie]?
     
-    var filters = ["All"] + genre.allCases.map { $0.rawValue }
+    var filters = ["All"]
+        //genre.allCases.map { $0.rawValue }
     
     
     override func viewDidLoad() {
@@ -43,10 +61,21 @@ class HomeViewController: UIViewController,UITableViewDataSource,UITableViewDele
         searchBar.searchBarStyle = .minimal
         
         fetchGenreList {
+            self.filters = self.filters + genreList.map {$0.value}
             self.fetchMoviesList()
             fetchWatchList {}
         }
 
+    }
+    
+    func getMoviesCountWithGenre(genre: String)->Int{
+        var count = 0
+        for movie in moviesList{
+            if (movie.genresString?.contains(genre))!{
+                count+=1
+            }
+        }
+        return count
     }
     
     func fetchMoviesList(){
@@ -93,15 +122,25 @@ class HomeViewController: UIViewController,UITableViewDataSource,UITableViewDele
         return searchBar.text?.isEmpty ?? true
     }
     
+    
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String){
         setAllButtonsAsUnclickedExcept(allButton!)
+        self.searchThread?.cancel()
+        
         if isSearchBarEmpty {
+            if let moviesListBeforeSearch=moviesListBeforeSearch{
+            moviesList = moviesListBeforeSearch
+            }
             filteredMovies = moviesList
             tableView.reloadData()
         }
         else{
-            print("hi")
-            filterContentForSearchText(searchBar.text!)
+            let searchThread = DispatchWorkItem { [weak self] in
+                self!.filterContentForSearchText(searchBar.text!)
+            }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: searchThread)
+            self.searchThread = searchThread
+           
         }
     }
     
@@ -111,6 +150,8 @@ class HomeViewController: UIViewController,UITableViewDataSource,UITableViewDele
     }
     
     func filterContentForSearchText(_ searchText: String) {
+        moviesListBeforeSearch = moviesList
+        lastSelectedFilterButton = allButton
         filteredMovies = moviesList.filter { (movie: Movie) -> Bool in
             return movie.title.lowercased().contains(searchText.lowercased())
         }
@@ -118,15 +159,15 @@ class HomeViewController: UIViewController,UITableViewDataSource,UITableViewDele
     }
     
     func filterContentForGenre(_ genreText: String) {
-        //        filteredMovies = moviesList.filter { (movie: Movie) -> Bool in
-        //            return movie.genre.rawValue.lowercased().contains(genreText.lowercased())
-        //        }
-        filteredMovies = moviesList
+        filteredMovies = moviesList.filter { (movie: Movie) -> Bool in
+            return movie.genresString!.contains(genreText)
+        }
+
         tableView.reloadData()
     }
     
     @objc func filterButtonTapped(_ sender: UIButton) {
-        
+        lastSelectedFilterButton = sender
         searchBar.text = ""
         searchBar.resignFirstResponder()
         if String(sender.title(for: .normal)!) == "All"{
@@ -225,6 +266,14 @@ class HomeViewController: UIViewController,UITableViewDataSource,UITableViewDele
     {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FilterButtonCell", for: indexPath) as! FilterButtonCollectionViewCell
         
+        let installedButtons = cell.contentView.subviews.filter{$0 is UIButton}
+        if installedButtons.count>0, let installedButton = installedButtons[0] as? UIButton{
+        installedButton.removeFromSuperview()
+        filterButtons.removeAll { (button: UIButton) -> Bool in
+           return button == installedButton
+        }
+        }
+        
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitleColor(UIColor.black, for: .normal)
@@ -241,12 +290,16 @@ class HomeViewController: UIViewController,UITableViewDataSource,UITableViewDele
         cell.contentView.addSubview(button)
         
         filterButtons.append(button)
-        if (indexPath.item == 0){ allButton = button}
+
+        if (button.titleLabel?.text == "All"){ allButton = button}
         
-        
-        if !(firstFilterButtonInitialized){
+        if let selectedButton = lastSelectedFilterButton {
+            if(selectedButton.titleLabel?.text == button.titleLabel?.text){
             setButtonAsClicked(button)
-            firstFilterButtonInitialized = true
+            }
+        }
+        else{
+            setButtonAsClicked(allButton!)
         }
         
         
