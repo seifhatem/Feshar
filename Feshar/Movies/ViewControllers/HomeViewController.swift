@@ -333,7 +333,7 @@ class HomeViewController: UIViewController,UITableViewDataSource,UITableViewDele
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitleColor(UIColor.black, for: .normal)
         button.titleLabel?.font = button.titleLabel?.font.withSize(13)
-        button.widthAnchor.constraint(equalToConstant: 100).isActive = true
+        button.widthAnchor.constraint(equalToConstant: 99).isActive = true
         button.heightAnchor.constraint(equalToConstant: 38).isActive = true
         button.layer.cornerRadius = 7
         button.layer.borderWidth = 1
