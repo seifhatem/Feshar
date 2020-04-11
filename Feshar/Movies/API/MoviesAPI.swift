@@ -37,6 +37,7 @@ class MoviesAPI{
         case DeleteSessionURL
         case DiscoverMoviesURL
         case DiscoverShowsURL
+        case ProfileURL
 
         var urlString: String {
             switch self {
@@ -55,6 +56,7 @@ class MoviesAPI{
             case .DeleteSessionURL: return Endpoints.baseURL + "authentication/session"
             case .DiscoverMoviesURL: return Endpoints.baseURL + "discover/movie?include_adult=\(showAdultContent)&page=1"
             case .DiscoverShowsURL: return Endpoints.baseURL + "discover/tv?include_adult=\(showAdultContent)&page=1"
+            case .ProfileURL: return Endpoints.baseURL + "account?session_id="
             }
         }
         

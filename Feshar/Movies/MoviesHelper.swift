@@ -39,9 +39,6 @@ func fetchWatchList(completion: @escaping () -> Void){
             }
             
         }
-
-
-        
     }
 
 }

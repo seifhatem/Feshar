@@ -10,11 +10,13 @@ import UIKit
 
 class ProfileViewController: UIViewController {
 
+    @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var adultContentSwitch: UISwitch!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         adultContentSwitch.isOn = showAdultContent
+        nameLabel.text = LoggedInProfile?.getUserName()
         // Do any additional setup after loading the view.
     }
    

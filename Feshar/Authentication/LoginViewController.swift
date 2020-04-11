@@ -57,6 +57,7 @@ class LoginViewController: UIViewController{
 
                                             if loginSession?.success ?? false{
                                         DispatchQueue.main.async {self.showSuccessfulLoginVC(withUsername: enteredUsername)}
+                                            self.self.fetchProfileData();
                                             }else{self.popAlertWithMessage("Could not create session");return;}
                                         }
                       }catch{self.popAlertWithMessage("Could not create session");return;}
@@ -78,6 +79,13 @@ class LoginViewController: UIViewController{
         }
     }
     
+    func fetchProfileData(){
+         httpGETRequest(urlString: MoviesAPI.Endpoints.ProfileURL.urlString) { (data, error) in
+            
+            LoggedInProfile = try! JSONDecoder().decode(Profile.self, from: data!)
+            
+        }
+    }
     
     func changeLoginFormStatus(){
         if usernameTxtBox.isEnabled{
