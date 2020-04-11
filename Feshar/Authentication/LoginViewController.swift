@@ -146,6 +146,7 @@ class LoginViewController: UIViewController{
         loginSpinnerView.isHidden = true
         usernameTxtBox.text = ""
         passwordTxtBox.text = ""
+         changeLoginFormStatus()
         let HomeVC = storyboard?.instantiateViewController(withIdentifier: "TabBarViewController") as! TabBarViewController
         
         HomeVC.modalPresentationStyle = .fullScreen
