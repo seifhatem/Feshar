@@ -84,12 +84,12 @@ class MovieDetailsViewController: UIViewController,UITableViewDataSource,UITable
     }
     
     func updateWatchListButton(){
-        if isTvShow{
-            addToWishListButton.isEnabled = false
-            addToWishListButton.backgroundColor = .darkGray
-             addToWishListButton.setTitle("Movies Only", for: .disabled)
-            return;
-        }
+//        if isTvShow{
+//            addToWishListButton.isEnabled = false
+//            addToWishListButton.backgroundColor = .darkGray
+//             addToWishListButton.setTitle("Movies Only", for: .disabled)
+//            return;
+//        }
         if (isInWatchList(movie!)){
             addToWishListButton.isEnabled = false
             addToWishListButton.backgroundColor = .darkGray

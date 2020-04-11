@@ -14,26 +14,36 @@ var genreList:  [Int:String] = [Int:String]()
 
 
 func fetchWatchList(completion: @escaping () -> Void){
-    httpGETRequest(urlString: MoviesAPI.Endpoints.GetWatchListURL.urlString) { (data, error) in
+    httpGETRequest(urlString: MoviesAPI.Endpoints.GetWatchListMoviesURL.urlString) { (data, error) in
         if error != nil {return;}
         guard let data = data else{return;}
         watchList = try! JSONDecoder().decode(GetWatchListResponse.self, from: data).results
-            for i in 0..<watchList.count{
-                 watchList[i].genresString = [String]()
-            for genreId in watchList[i].genres{
-                if let genreString = genreList[genreId]{
-                watchList[i].genresString?.append(genreString)
+        
+        httpGETRequest(urlString: MoviesAPI.Endpoints.GetWatchListTVsURL.urlString) { (data, error) in
+            if error != nil {return;}
+            guard let data = data else{return;}
+            let tvWatchList =  try! JSONDecoder().decode(GetWatchListResponse.self, from: data).results
+            watchList = watchList + tvWatchList
+                for i in 0..<watchList.count{
+                     watchList[i].genresString = [String]()
+                for genreId in watchList[i].genres{
+                    if let genreString = genreList[genreId]{
+                    watchList[i].genresString?.append(genreString)
+                    }
                 }
+                    httpGETRequest(urlString: MoviesAPI.Endpoints.FetchPosterImageURL.urlString + watchList[i].posterIdentifier) { (data, error) in
+                        guard let data = data else{return}
+                        watchList[i].posterData = data
+                        completion()
+                    }
             }
-                httpGETRequest(urlString: MoviesAPI.Endpoints.FetchPosterImageURL.urlString + watchList[i].posterIdentifier) { (data, error) in
-                    guard let data = data else{return}
-                    watchList[i].posterData = data
-                    completion()
-                }
+            
         }
+
 
         
     }
+
 }
 
 
@@ -44,17 +54,17 @@ func fetchWatchList(completion: @escaping () -> Void){
 
 
 func addToWatchList(movie: Movie){
-    let postData = try! JSONEncoder().encode(AppendWatchListRequest(movie_id: movie.id,movie_watchlist: true))
-    httpPOSTRequest(urlString: MoviesAPI.Endpoints.AddToWachListURL.urlString, postData: postData){ (data, error) in
+    let postData = try! JSONEncoder().encode(AmendWatchListRequest(media_type: movie.getTypeString, media_id: movie.id, watchlist: true))
+    httpPOSTRequest(urlString: MoviesAPI.Endpoints.AmendWatchListURL.urlString, postData: postData){ (data, error) in
     }
     watchList.append(movie)
     
     }
     
 func removeFromWatchList(index: Int){
-    let postData = try! JSONEncoder().encode(AppendWatchListRequest(movie_id: watchList[index].id,movie_watchlist: false))
+ let postData = try! JSONEncoder().encode(AmendWatchListRequest(media_type: watchList[index].getTypeString, media_id: watchList[index].id, watchlist: false))
     watchList.remove(at: index)
-    httpPOSTRequest(urlString: MoviesAPI.Endpoints.DeleteFromWatchListURL.urlString, postData: postData) { (data, error) in
+    httpPOSTRequest(urlString: MoviesAPI.Endpoints.AmendWatchListURL.urlString, postData: postData) { (data, error) in
     }
     
 }

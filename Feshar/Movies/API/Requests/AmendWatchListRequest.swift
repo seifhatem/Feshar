@@ -1,5 +1,5 @@
 //
-//  AppendWatchListRequest.swift
+//  AmendWatchListRequest.swift
 //  Feshar
 //
 //  Created by Seif Elmenabawy on 4/9/20.
@@ -8,7 +8,8 @@
 
 import Foundation
 
-struct AppendWatchListRequest: Codable{
-    var movie_id: Int
-    var movie_watchlist: Bool
+struct AmendWatchListRequest: Codable{
+    var media_type: String
+    var media_id: Int
+    var watchlist: Bool
 }

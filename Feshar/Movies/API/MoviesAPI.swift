@@ -28,9 +28,10 @@ class MoviesAPI{
         case FetchPersonURL
         case CreateSessionWithLoginURL
         case CreateSessionURL
-        case GetWatchListURL
-        case DeleteFromWatchListURL
-        case AddToWachListURL
+        case GetWatchListMoviesURL
+        case GetWatchListTVsURL
+        //case DeleteFromWatchListURL
+        case AmendWatchListURL
         case GetMovieGenreListURL
         case SearchMoviesURL
         case DeleteSessionURL
@@ -44,10 +45,11 @@ class MoviesAPI{
             case .FetchPosterImageURL:  return Endpoints.postersBaseURL
             case .FetchPersonURL:    return Endpoints.baseURL + "person/"
             case .CreateSessionWithLoginURL: return Endpoints.baseURL + "authentication/token/validate_with_login"
-            case .GetWatchListURL: return Endpoints.baseURL + "account/1/watchlist/movies?session_id="
-            case .AddToWachListURL: return Endpoints.baseURL + "account/1/watchlist?session_id="
+            case .GetWatchListMoviesURL: return Endpoints.baseURL + "account/1/watchlist/movies?session_id="
+            case .GetWatchListTVsURL: return Endpoints.baseURL + "account/1/watchlist/tv?session_id="
+            case .AmendWatchListURL: return Endpoints.baseURL + "account/1/watchlist?session_id="
             case .CreateSessionURL: return Endpoints.baseURL + "authentication/session/new"
-            case .DeleteFromWatchListURL: return Endpoints.baseURL + "account/1/movie_watchlist?session_id="
+            //case .DeleteFromWatchListURL: return Endpoints.baseURL + "account/1/movie_watchlist?session_id="
             case .GetMovieGenreListURL: return Endpoints.baseURL + "genre/movie/list"
             case .SearchMoviesURL: return Endpoints.baseURL + "search/movie?page=1&include_adult=\(showAdultContent)&query="
             case .DeleteSessionURL: return Endpoints.baseURL + "authentication/session"

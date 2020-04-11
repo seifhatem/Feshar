@@ -298,7 +298,7 @@ class HomeViewController: UIViewController,UITableViewDataSource,UITableViewDele
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell=tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath) as! MovieTableViewCell
-        cell.titleLabel.text = filteredMovies[indexPath.section].title
+        cell.titleLabel.text = filteredMovies[indexPath.section].getTitle()
         cell.genreLabel.text = filteredMovies[indexPath.section].genreWithDuration
         cell.imdbLabel.text = String(filteredMovies[indexPath.section].imdbRating)
         
@@ -392,7 +392,7 @@ class HomeViewController: UIViewController,UITableViewDataSource,UITableViewDele
         
         
         let shareButton = UIContextualAction(style: .normal,title: "Share") { (action, view, success) in
-            let text = "I just stumbled upon this movie on Feshar, wanna watch it with me?\n\(self.filteredMovies[indexPath.section].title)\n\(self.filteredMovies[indexPath.section].genreWithDuration)\n\n\(self.filteredMovies[indexPath.section].description)"
+            let text = "I just stumbled upon this movie on Feshar, wanna watch it with me?\n\(self.filteredMovies[indexPath.section].getTitle())\n\(self.filteredMovies[indexPath.section].genreWithDuration)\n\n\(self.filteredMovies[indexPath.section].description)"
             let imageToShare = UIImage(named: self.filteredMovies[indexPath.section].posterIdentifier)
             self.share(shareText: text, shareImage: imageToShare)
             success(true)

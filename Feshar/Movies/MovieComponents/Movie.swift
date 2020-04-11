@@ -29,8 +29,11 @@ import Foundation
 //}
 
 struct Movie:Equatable,Decodable{
+//    static func == (lhs: Movie, rhs: Movie) -> Bool {
+//        return lhs.title == rhs.title
+//    }
     static func == (lhs: Movie, rhs: Movie) -> Bool {
-        return lhs.title == rhs.title
+        return lhs.id == rhs.id
     }
     
     enum CodingKeys: String, CodingKey {
@@ -43,7 +46,7 @@ struct Movie:Equatable,Decodable{
         case genres = "genre_ids"
         case firstAirDate = "first_air_date"
     }
-    
+
     var id: Int
     var title: String?
     var name: String?
@@ -59,6 +62,19 @@ struct Movie:Equatable,Decodable{
     var description: String
     var genreWithDuration: String {
         return genresString?.joined(separator: "/") ?? ""
+    }
+    var getTypeString: String{
+        if isTvShow{
+            return "tv"
+        }
+        return "movie"
+    }
+    
+    func getTitle()->String{
+        if let title=title{
+            return title
+        }
+        return name!
     }
 }
 

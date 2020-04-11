@@ -163,8 +163,8 @@
                                 <rect key="contentStretch" x="1" y="1" width="1" height="1"/>
                                 <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="default"/>
                                 <variation key="widthClass=compact" image="logo_port"/>
-                                <variation key="heightClass=compact-widthClass=compact" image="7E41A083-FB5C-4E7B-A699-8722075D5DDE"/>
-                                <variation key="heightClass=compact-widthClass=regular" image="A13B4BF9-6995-4505-AA8D-462651838C1D"/>
+                                <variation key="heightClass=compact-widthClass=compact" image="3A7EBADC-6855-4BF5-B34C-53C358C983AB"/>
+                                <variation key="heightClass=compact-widthClass=regular" image="F296ECCB-52E4-4941-93EB-9219FA0F6089"/>
                                 <variation key="heightClass=regular-widthClass=regular" image="logo_land"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1Aq-LA-RmR">
@@ -363,6 +363,10 @@
                                 <exclude reference="cMV-vP-hJX"/>
                                 <exclude reference="dv9-MI-04Y"/>
                                 <exclude reference="z0V-FG-dJj"/>
+                                <exclude reference="IST-Gd-Y05"/>
+                                <exclude reference="NhP-jR-Y2l"/>
+                                <exclude reference="tMT-b9-Tu1"/>
+                                <exclude reference="ue5-Vq-RaM"/>
                                 <exclude reference="53I-d3-j4S"/>
                                 <exclude reference="Bwu-xP-HZ0"/>
                                 <exclude reference="DSK-Ln-8ci"/>
@@ -374,10 +378,6 @@
                                 <exclude reference="jOE-Mf-CEV"/>
                                 <exclude reference="jPD-uv-a5p"/>
                                 <exclude reference="weA-z6-5ZR"/>
-                                <exclude reference="IST-Gd-Y05"/>
-                                <exclude reference="NhP-jR-Y2l"/>
-                                <exclude reference="tMT-b9-Tu1"/>
-                                <exclude reference="ue5-Vq-RaM"/>
                                 <exclude reference="1SG-hf-5xD"/>
                                 <exclude reference="8g3-zc-jzR"/>
                                 <exclude reference="P4k-aP-GH2"/>
@@ -418,11 +418,11 @@
                                 <include reference="D9j-pH-uHa"/>
                                 <include reference="YaF-4x-H8E"/>
                                 <include reference="cMV-vP-hJX"/>
+                                <include reference="ue5-Vq-RaM"/>
                                 <include reference="Bwu-xP-HZ0"/>
                                 <include reference="HYk-HU-6jF"/>
                                 <include reference="LAU-59-OIM"/>
                                 <include reference="jPD-uv-a5p"/>
-                                <include reference="ue5-Vq-RaM"/>
                                 <include reference="P4k-aP-GH2"/>
                                 <include reference="isg-zQ-NUM"/>
                                 <include reference="Egb-rB-ctb"/>
@@ -451,11 +451,11 @@
                                 <include reference="VRn-28-wzg"/>
                                 <include reference="6if-UX-abE"/>
                                 <include reference="dv9-MI-04Y"/>
+                                <include reference="IST-Gd-Y05"/>
+                                <include reference="tMT-b9-Tu1"/>
                                 <include reference="DSK-Ln-8ci"/>
                                 <include reference="LiI-Or-bCB"/>
                                 <include reference="jOE-Mf-CEV"/>
-                                <include reference="IST-Gd-Y05"/>
-                                <include reference="tMT-b9-Tu1"/>
                                 <include reference="1SG-hf-5xD"/>
                                 <include reference="8g3-zc-jzR"/>
                                 <include reference="eq3-9F-mts"/>
@@ -482,11 +482,11 @@
                                 <include reference="vbo-F0-TUQ"/>
                                 <include reference="wab-8V-Sj8"/>
                                 <include reference="z0V-FG-dJj"/>
+                                <include reference="NhP-jR-Y2l"/>
                                 <include reference="53I-d3-j4S"/>
                                 <include reference="PiQ-Vm-FMI"/>
                                 <include reference="Y6J-Ib-hWm"/>
                                 <include reference="weA-z6-5ZR"/>
-                                <include reference="NhP-jR-Y2l"/>
                                 <include reference="QsR-c9-UAm"/>
                                 <include reference="rH3-7w-E7t"/>
                                 <include reference="dfa-0P-S55"/>
@@ -544,7 +544,7 @@
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="1rl-ob-bhV">
+                                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" horizontalCompressionResistancePriority="751" contentHorizontalAlignment="left" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="1rl-ob-bhV">
                                         <rect key="frame" x="160.33333333333337" y="0.0" width="51" height="31"/>
                                         <connections>
                                             <action selector="adultContentSwitched:" destination="QLc-oe-Haz" eventType="valueChanged" id="O34-gc-UWA"/>
@@ -723,29 +723,29 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="There are no movies found" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cVb-Ds-VO5">
-                                <rect key="frame" x="10" y="202" width="216.33333333333334" height="21"/>
+                                <rect key="frame" x="10" y="202" width="394" height="21"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="3V2-af-FJC">
-                                <rect key="frame" x="0.0" y="168" width="236.33333333333334" height="602"/>
+                                <rect key="frame" x="0.0" y="168" width="414" height="602"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <view key="tableFooterView" contentMode="scaleToFill" id="lGI-zj-RDq">
-                                    <rect key="frame" x="0.0" y="288" width="236.33333333333334" height="128"/>
+                                    <rect key="frame" x="0.0" y="288" width="414" height="128"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 </view>
                                 <prototypes>
                                     <tableViewCell autoresizesSubviews="NO" clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="0.0" reuseIdentifier="MovieCell" rowHeight="232" id="2gZ-Ln-Zbq" customClass="MovieTableViewCell" customModule="Feshar">
-                                        <rect key="frame" x="0.0" y="28" width="236.33333333333334" height="232"/>
+                                        <rect key="frame" x="0.0" y="28" width="414" height="232"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="2gZ-Ln-Zbq" id="z1B-ih-VeF">
-                                            <rect key="frame" x="0.0" y="0.0" width="236.33333333333334" height="232"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="232"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NlX-oY-MSZ">
-                                                    <rect key="frame" x="10" y="39" width="216.33333333333334" height="193"/>
+                                                    <rect key="frame" x="10" y="39" width="394" height="193"/>
                                                     <subviews>
                                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="LM7-S3-hqM">
                                                             <rect key="frame" x="0.0" y="-30" width="108" height="113"/>
@@ -760,7 +760,7 @@
                                                             </userDefinedRuntimeAttributes>
                                                         </imageView>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="V1R-gD-KAA">
-                                                            <rect key="frame" x="117.99999999999999" y="18" width="58.333333333333329" height="17"/>
+                                                            <rect key="frame" x="118" y="18" width="236" height="17"/>
                                                             <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="16"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
@@ -772,7 +772,7 @@
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Genre" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="1" translatesAutoresizingMaskIntoConstraints="NO" id="ezn-v2-sIB">
-                                                            <rect key="frame" x="117.99999999999999" y="41" width="35.333333333333329" height="15.666666666666664"/>
+                                                            <rect key="frame" x="118" y="41" width="213" height="15.666666666666664"/>
                                                             <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="12"/>
                                                             <color key="textColor" red="0.65098039220000004" green="0.65098039220000004" blue="0.65098039220000004" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
@@ -784,7 +784,7 @@
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="7" translatesAutoresizingMaskIntoConstraints="NO" id="TEy-du-cZQ" userLabel="DescriptionLabel">
-                                                            <rect key="frame" x="12" y="104" width="183.66666666666666" height="74"/>
+                                                            <rect key="frame" x="12" y="104" width="325.66666666666669" height="74"/>
                                                             <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="16"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
@@ -836,11 +836,11 @@
                                 </prototypes>
                             </tableView>
                             <searchBar contentMode="redraw" placeholder="Search" translatesAutoresizingMaskIntoConstraints="NO" id="uIw-Sb-IoO">
-                                <rect key="frame" x="0.0" y="44" width="236.33333333333334" height="56"/>
+                                <rect key="frame" x="0.0" y="44" width="414" height="56"/>
                                 <textInputTraits key="textInputTraits" enablesReturnKeyAutomatically="YES"/>
                             </searchBar>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="CNt-9o-uXk">
-                                <rect key="frame" x="0.0" y="104" width="236.33333333333334" height="48"/>
+                                <rect key="frame" x="0.0" y="104" width="414" height="48"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="375" id="E25-5X-f1f"/>
@@ -868,10 +868,10 @@
                                 <rect key="frame" x="190" y="433.5" width="174" height="154"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="slowmo" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="5l1-So-vrG">
-                                        <rect key="frame" x="17.666666666666654" y="9.6666666666666643" width="63.666666666666657" height="88.666666666666671"/>
+                                        <rect key="frame" x="31.666666666666657" y="9.6666666666666643" width="111" height="88.666666666666671"/>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Seaching..." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ad3-nY-3FZ">
-                                        <rect key="frame" x="7" y="95.666666666666629" width="85" height="21"/>
+                                        <rect key="frame" x="44.666666666666657" y="95.666666666666629" width="85" height="21"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
@@ -1161,7 +1161,7 @@
             <objects>
                 <viewController storyboardIdentifier="WatchListViewController" id="Gyk-x0-uaG" customClass="WishListViewController" customModule="Feshar" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="47p-pD-9kN">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="394.33333333333331"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="276"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Watchlist" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6E9-0M-hgF">
@@ -1171,7 +1171,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="nU9-Eh-xAT">
-                                <rect key="frame" x="0.0" y="73" width="414" height="321.33333333333331"/>
+                                <rect key="frame" x="0.0" y="73" width="414" height="203"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="MovieCell" rowHeight="123" id="lmc-TM-WhL" customClass="MovieTableViewCell" customModule="Feshar">
@@ -1431,7 +1431,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="7E41A083-FB5C-4E7B-A699-8722075D5DDE" width="166" height="63">
+        <image name="3A7EBADC-6855-4BF5-B34C-53C358C983AB" width="166" height="63">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGBwpYJHZlcnNpb25ZJGFyY2hpdmVyVCR0b3BYJG9iamVjdHMSAAGGoF8QD05T
 S2V5ZWRBcmNoaXZlctEICVRyb290gAGvEBcLDBkaIRQmKisyNTo9PkNGR0pUXF1hZFUkbnVsbNYNDg8Q
@@ -11459,7 +11459,7 @@ CRnPAAkZ0QAJGdMACRnVAAkrQQAJK0YACStTAAkrVgAJK2MACStoAAkrcAAJK3MACSt4AAkrgAAAAAAA
 AAQBAAAAAAAAAGcAAAAAAAAAAAAAAAAACSuDA
 </mutableData>
         </image>
-        <image name="A13B4BF9-6995-4505-AA8D-462651838C1D" width="166" height="63">
+        <image name="F296ECCB-52E4-4941-93EB-9219FA0F6089" width="166" height="63">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGBwpYJHZlcnNpb25ZJGFyY2hpdmVyVCR0b3BYJG9iamVjdHMSAAGGoF8QD05T
 S2V5ZWRBcmNoaXZlctEICVRyb290gAGvEBALDBkaHyQlKywyNT9HSExPVSRudWxs1g0ODxAREhMUFRYX
