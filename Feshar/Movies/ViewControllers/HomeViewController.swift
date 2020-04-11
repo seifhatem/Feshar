@@ -83,6 +83,10 @@ class HomeViewController: UIViewController,UITableViewDataSource,UITableViewDele
         
         fetchGenreList {
             self.filters = self.filters + genreList.map {$0.value}
+            DispatchQueue.main.async {
+                self.filterButtonsCollection.reloadData()
+            }
+            
             self.fetchMoviesList()
             fetchWatchList {}
         }
