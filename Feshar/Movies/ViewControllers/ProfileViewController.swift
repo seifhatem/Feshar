@@ -26,7 +26,7 @@ class ProfileViewController: UIViewController {
     }
     
     @IBAction func logoutTapped(_ sender: Any) {
-        //TODO: Auto Login
+        saveCredentialsToUD(username: "", password: "")
         deleteSession();
         self.parent?.dismiss(animated: false, completion: nil)
     }

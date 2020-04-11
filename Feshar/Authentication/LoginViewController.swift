@@ -18,15 +18,25 @@ class LoginViewController: UIViewController{
     
     override func viewDidLoad() {
         //self.view.bringSubviewToFront(loginSpinnerView)
-        usernameTxtBox.text = "seifhatem"
-        passwordTxtBox.text = "Robusta.123"
         super.viewDidLoad()
+        
+        autoLogin();
+        
     }
     //Username and password should be required fields. If the user forgets to input either, a UIAlert should appear to warn them.
     //The password should be at least 8 characters long.  If the user inputs a password that is less than 8 characters, a UIAlert should appear to warn them.
     
+    func autoLogin(){
+    if let savedPassword = UserDefaults.standard.string(forKey: "userPassword"), let savedUserName = UserDefaults.standard.string(forKey: "userUsername"){
+        usernameTxtBox.text = savedUserName
+        passwordTxtBox.text = savedPassword
+        loginBtnTapped(UIButton())
+            }
+    }
+    
     @IBAction func loginBtnTapped(_ sender: Any) {
         //disable login form controls
+        var isAutoLoginSwitched = autoLoginSwitch.isOn ? true:false
         changeLoginFormStatus()
         loginSpinnerView.isHidden = false
         let decoder = JSONDecoder()
@@ -53,7 +63,11 @@ class LoginViewController: UIViewController{
                                         httpPOSTRequest(urlString: MoviesAPI.Endpoints.CreateSessionURL.urlString, postData: postData) { (data, error) in
                                             if error != nil {self.popAlertWithMessage("Authentication Failed");return;}
                                         loginSession = try! decoder.decode(CreateSessionResponse.self, from: data!)
-                                       //TODO: Implement Auto Login
+                                       
+                                            if isAutoLoginSwitched{
+                                                saveCredentialsToUD(username: enteredUsername, password: enteredPassword)
+                                            }
+                                            
 
                                             if loginSession?.success ?? false{
                                         DispatchQueue.main.async {self.showSuccessfulLoginVC(withUsername: enteredUsername)}
