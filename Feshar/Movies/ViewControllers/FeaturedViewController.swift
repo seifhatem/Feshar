@@ -24,66 +24,75 @@ class FeaturedViewController: UIViewController,UITableViewDataSource,UITableView
         tableView.separatorColor = UIColor.clear
         setupNavigationBar()
 
-        
-        httpGETRequest(urlString: MoviesAPI.Endpoints.DiscoverMoviesURL.urlString) { (data, error) in
-            guard let data = data else{return}
-            guard let jsonResponse = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] else{return}
-            guard let movies = jsonResponse["results"] as? NSArray else{return}
-            for movie in movies{
-                
-                if var r =  try? Movie(from: movie){
-                    
-                httpGETRequest(urlString: MoviesAPI.Endpoints.FetchPosterImageURL.urlString + r.posterIdentifier) { (data, error) in
-                    guard let data = data else{return}
-                    r.posterData = data
-                    r.genresString = [String]()
-                    for genreId in r.genres{
-                        
-                        if let genreString = genreList[genreId]{
-                            r.genresString?.append(genreString)
-                        }
-                        
-                    }
-                    self.featuredMoviesList.append(r)
-                      DispatchQueue.main.async {self.tableView.reloadData();}
-                }
-                   
-                }
-               
-            }
-          
+        fetchFeaturedTVsList {
+            DispatchQueue.main.async {self.tableView.reloadData()}
+        }
+        fetchFeaturedMovieList {
+            DispatchQueue.main.async {self.tableView.reloadData()}
         }
         
-       httpGETRequest(urlString: MoviesAPI.Endpoints.DiscoverShowsURL.urlString) { (data, error) in
-                  guard let data = data else{return}
-                  guard let jsonResponse = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] else{return}
-                  guard let movies = jsonResponse["results"] as? NSArray else{return}
-                  for movie in movies{
-                    if var r =  try? Movie(from: movie){
-                      httpGETRequest(urlString: MoviesAPI.Endpoints.FetchPosterImageURL.urlString + r.posterIdentifier) { (data, error) in
-                          guard let data = data else{return}
-                          r.posterData = data
-                          r.genresString = [String]()
-                          for genreId in r.genres{
-                              
-                              if let genreString = genreList[genreId]{
-                                  r.genresString?.append(genreString)
-                              }
-                              
-                          }
-                          self.featuredShowsList.append(r)
-                        DispatchQueue.main.async {self.tableView.reloadData()}
-                      }
-                    }
-                         
-                      
-                      
-                  }
-                   
-              }
-        
     }
-
+    
+    func fetchFeaturedMovieList(completion: ()->Void){
+        httpGETRequest(urlString: MoviesAPI.Endpoints.DiscoverMoviesURL.urlString) { (data, error) in
+                   guard let data = data else{return}
+                   guard let jsonResponse = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] else{return}
+                   guard let movies = jsonResponse["results"] as? NSArray else{return}
+                   for movie in movies{
+                       
+                       if var r =  try? Movie(from: movie){
+                           
+                       httpGETRequest(urlString: MoviesAPI.Endpoints.FetchPosterImageURL.urlString + r.posterIdentifier) { (data, error) in
+                           guard let data = data else{return}
+                           r.posterData = data
+                           r.genresString = [String]()
+                           for genreId in r.genres{
+                               
+                               if let genreString = genreList[genreId]{
+                                   r.genresString?.append(genreString)
+                               }
+                               
+                           }
+                           self.featuredMoviesList.append(r)
+                             DispatchQueue.main.async {self.tableView.reloadData();}
+                       }
+                          
+                       }
+                      
+                   }
+               }
+    }
+    
+ func fetchFeaturedTVsList(completion: ()->Void){
+    httpGETRequest(urlString: MoviesAPI.Endpoints.DiscoverShowsURL.urlString) { (data, error) in
+               guard let data = data else{return}
+               guard let jsonResponse = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] else{return}
+               guard let movies = jsonResponse["results"] as? NSArray else{return}
+               for movie in movies{
+                 if var r =  try? Movie(from: movie){
+                   httpGETRequest(urlString: MoviesAPI.Endpoints.FetchPosterImageURL.urlString + r.posterIdentifier) { (data, error) in
+                       guard let data = data else{return}
+                       r.posterData = data
+                       r.genresString = [String]()
+                       for genreId in r.genres{
+                           
+                           if let genreString = genreList[genreId]{
+                               r.genresString?.append(genreString)
+                           }
+                           
+                       }
+                       self.featuredShowsList.append(r)
+                     DispatchQueue.main.async {self.tableView.reloadData()}
+                   }
+                 }
+                      
+                   
+                   
+               }
+           }
+    }
+    
+    
     //Custom Navigation Bar
      func setupNavigationBar(){
          let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
