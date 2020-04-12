@@ -113,6 +113,11 @@ class MovieDetailsViewController: UIViewController,UITableViewDataSource,UITable
         cell.bioLabel.text = castArray[indexPath.row].bio
         cell.nameLabel.text = castArray[indexPath.row].name
         
+        if cell.bioLabel.text == ""{
+        cell.addConstraint(NSLayoutConstraint(item: cell.contentView, attribute: .height, relatedBy: .greaterThanOrEqual, toItem: cell.photo, attribute: .height, multiplier: 1, constant: 20))
+            cell.addConstraint(NSLayoutConstraint(item: cell.photo as Any, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1, constant: 45))
+            cell.addConstraint(NSLayoutConstraint(item: cell.photo as Any, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .width, multiplier: 1, constant: 45))
+        }
         
         if let data =  self.castArray[indexPath.row].photoData{
             cell.photo.image = UIImage(data: data)
