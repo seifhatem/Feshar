@@ -14,6 +14,7 @@ class FeaturedTableViewCell: UITableViewCell, UICollectionViewDelegate, UICollec
     //var categoryTag : Tag?
     var moviesList = [Movie](){
         didSet{
+            
             DispatchQueue.main.async {
                 self.collectionView.reloadData()
             }

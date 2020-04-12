@@ -30,7 +30,9 @@ class FeaturedViewController: UIViewController,UITableViewDataSource,UITableView
             guard let jsonResponse = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] else{return}
             guard let movies = jsonResponse["results"] as? NSArray else{return}
             for movie in movies{
+                
                 if var r =  try? Movie(from: movie){
+                    
                 httpGETRequest(urlString: MoviesAPI.Endpoints.FetchPosterImageURL.urlString + r.posterIdentifier) { (data, error) in
                     guard let data = data else{return}
                     r.posterData = data
@@ -43,13 +45,13 @@ class FeaturedViewController: UIViewController,UITableViewDataSource,UITableView
                         
                     }
                     self.featuredMoviesList.append(r)
-                    
+                      DispatchQueue.main.async {self.tableView.reloadData();}
                 }
                    
                 }
-                 DispatchQueue.main.async {self.tableView.reloadData()}
+               
             }
-            
+          
         }
         
        httpGETRequest(urlString: MoviesAPI.Endpoints.DiscoverShowsURL.urlString) { (data, error) in
@@ -70,14 +72,14 @@ class FeaturedViewController: UIViewController,UITableViewDataSource,UITableView
                               
                           }
                           self.featuredShowsList.append(r)
-                          
+                        DispatchQueue.main.async {self.tableView.reloadData()}
                       }
                     }
                          
                       
-                       DispatchQueue.main.async {self.tableView.reloadData()}
+                      
                   }
-                  
+                   
               }
         
     }
@@ -120,6 +122,7 @@ class FeaturedViewController: UIViewController,UITableViewDataSource,UITableView
         }
         else
         {
+           
             cell.moviesList = featuredShowsList
         }
            cell.categoryLabel.text = categoryTags[indexPath.row]
