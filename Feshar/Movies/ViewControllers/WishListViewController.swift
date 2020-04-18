@@ -9,6 +9,8 @@
 import UIKit
 
 class WishListViewController: UIViewController,UITableViewDataSource,UITableViewDelegate {
+    let refreshControl = UIRefreshControl()
+    
     @IBOutlet weak var tableView: UITableView!
     
     override func viewWillAppear(_ animated: Bool) {
@@ -19,12 +21,35 @@ class WishListViewController: UIViewController,UITableViewDataSource,UITableView
     }
     
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavigationBar()
         tableView.delegate = self
         tableView.dataSource = self
         tableView.separatorColor = UIColor.clear
+        setupPullToRefresh()
+    }
+    
+    func setupPullToRefresh(){
+        
+        if #available(iOS 10.0, *) {
+            tableView.refreshControl = refreshControl
+        } else {
+            tableView.addSubview(refreshControl)
+        }
+        refreshControl.addTarget(self, action: #selector(refreshWatchList(_:)), for: .valueChanged)
+    }
+    
+    
+    @objc private func refreshWatchList(_ sender: Any) {
+        fetchWatchList {
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+                self.refreshControl.endRefreshing()
+            }  
+        }
+         
     }
     
     func setButtonAsClicked(_ button: UIButton){
