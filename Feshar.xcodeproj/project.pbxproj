@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		A80F39FC2438F3F60082E595 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A80F39FB2438F3F60082E595 /* TabBarViewController.swift */; };
-		A81813102433214600643B3B /* MovieDummyList.swift in Sources */ = {isa = PBXBuildFile; fileRef = A818130F2433214600643B3B /* MovieDummyList.swift */; };
 		A829198E2431043F000240CC /* MovieDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A829198D2431043F000240CC /* MovieDetailsViewController.swift */; };
 		A82CDCE32433A37B0036814F /* FeaturedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A82CDCE22433A37B0036814F /* FeaturedViewController.swift */; };
 		A82CDCE724345B170036814F /* FeaturedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A82CDCE624345B170036814F /* FeaturedTableViewCell.swift */; };
@@ -45,7 +44,6 @@
 
 /* Begin PBXFileReference section */
 		A80F39FB2438F3F60082E595 /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
-		A818130F2433214600643B3B /* MovieDummyList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDummyList.swift; sourceTree = "<group>"; };
 		A829198D2431043F000240CC /* MovieDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailsViewController.swift; sourceTree = "<group>"; };
 		A82CDCE22433A37B0036814F /* FeaturedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeaturedViewController.swift; sourceTree = "<group>"; };
 		A82CDCE624345B170036814F /* FeaturedTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeaturedTableViewCell.swift; sourceTree = "<group>"; };
@@ -100,7 +98,6 @@
 				A8F0A73D2432C0FD002AFF29 /* TableCells */,
 				A8F0A73E2432C112002AFF29 /* ViewControllers */,
 				A841BEC824336FD5001FCECA /* MovieComponents */,
-				A818130F2433214600643B3B /* MovieDummyList.swift */,
 				A8F0A7392432B87F002AFF29 /* MoviesHelper.swift */,
 			);
 			path = Movies;
@@ -291,7 +288,6 @@
 				A8F0A73A2432B87F002AFF29 /* MoviesHelper.swift in Sources */,
 				A889C9EF243EC18F007509D5 /* CreateSessionWithLoginResponse.swift in Sources */,
 				A80F39FC2438F3F60082E595 /* TabBarViewController.swift in Sources */,
-				A81813102433214600643B3B /* MovieDummyList.swift in Sources */,
 				A8EEEF972441F35B006B9246 /* Profile.swift in Sources */,
 				A8F0A7302432A30C002AFF29 /* Cast.swift in Sources */,
 				A8593B7F242A7C8F0017B91E /* LoginViewController.swift in Sources */,
