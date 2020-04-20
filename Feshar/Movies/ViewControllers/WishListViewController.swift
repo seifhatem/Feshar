@@ -125,9 +125,6 @@ class WishListViewController: UIViewController,UITableViewDataSource,UITableView
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             removeFromWatchList(index: indexPath.row)
-//            fetchWatchList {
-//                DispatchQueue.main.async { self.tableView.reloadData() }
-//            }
             tableView.deleteRows(at: [indexPath], with: .fade)
         }
     }

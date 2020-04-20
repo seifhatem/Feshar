@@ -16,24 +16,6 @@ class HomeViewController: UIViewController,UITableViewDataSource,UITableViewDele
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var searchingSpinnerView: UIView!
     
-    
-    //var moviesList = fetchMoviesList()
-    //    var moviesList = [Movie](){
-    //        didSet{
-    //            var newFilters = ["All"]
-    //            let fullFilterList = genreList.map {$0.value}
-    //            for i in 0..<fullFilterList.count{
-    //                if getMoviesCountWithGenre(genre: fullFilterList[i]) > 0{
-    //                    newFilters.append(fullFilterList[i])
-    //                }
-    //            }
-    //            filters = newFilters
-    //
-    //            DispatchQueue.main.async{
-    //                self.filterButtonsCollection.reloadData()
-    //            }
-    //        }
-    //    }
     var moviesList = [Movie]()
     var filteredMovies: [Movie] = []{
         didSet{
@@ -62,8 +44,6 @@ class HomeViewController: UIViewController,UITableViewDataSource,UITableViewDele
     
     
     var filters = ["All"]
-    //genre.allCases.map { $0.rawValue }
-    
     
     override func viewDidLoad() {
         
@@ -84,12 +64,19 @@ class HomeViewController: UIViewController,UITableViewDataSource,UITableViewDele
         fetchGenreList {
             self.filters = self.filters + genreList.map {$0.value}
             DispatchQueue.main.async {
+                fetchWatchList {}
+                fetchMoviesList { (returnedMovies) in
+                    self.moviesList = returnedMovies
+                    self.filteredMovies = self.moviesList
+                    self.initialMoviesList = self.moviesList
+                    DispatchQueue.main.async {self.tableView.reloadData()}
+                }
                 self.filterButtonsCollection.reloadData()
             }
             
-            self.fetchMoviesList()
-            fetchWatchList {}
         }
+        
+        
         
     }
     
@@ -103,34 +90,6 @@ class HomeViewController: UIViewController,UITableViewDataSource,UITableViewDele
         return count
     }
     
-    func fetchMoviesList(){
-        httpGETRequest(urlString: MoviesAPI.Endpoints.FetchMoviesListURL.urlString) { (data, error) in
-            guard let data = data else{return}
-            guard let jsonResponse = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] else{return}
-            guard let movies = jsonResponse["results"] as? NSArray else{return}
-            for movie in movies{
-                var r =  try! Movie(from: movie)
-                httpGETRequest(urlString: MoviesAPI.Endpoints.FetchPosterImageURL.urlString + r.posterIdentifier) { (data, error) in
-                    guard let data = data else{return}
-                    r.posterData = data
-                    r.genresString = [String]()
-                    for genreId in r.genres{
-                        
-                        if let genreString = genreList[genreId]{
-                            r.genresString?.append(genreString)
-                        }
-                        
-                    }
-                    self.moviesList.append(r)
-                    passedMovies = self.moviesList
-                    self.filteredMovies = self.moviesList
-                    self.initialMoviesList = self.moviesList
-                    DispatchQueue.main.async {self.tableView.reloadData()}
-                }
-            }
-            
-        }
-    }
     
     
     func setupNavigationBar(){
@@ -159,7 +118,7 @@ class HomeViewController: UIViewController,UITableViewDataSource,UITableViewDele
             tableView.reloadData()
         }
         else{
-           
+            
             let searchThread = DispatchWorkItem { [weak self] in
                 self!.filterContentForSearchText(searchBar.text!)
             }
@@ -177,9 +136,6 @@ class HomeViewController: UIViewController,UITableViewDataSource,UITableViewDele
     
     func filterContentForSearchText(_ searchText: String) {
         lastSelectedFilterButton = allButton
-        //        filteredMovies = moviesList.filter { (movie: Movie) -> Bool in
-        //            return movie.title.lowercased().contains(searchText.lowercased())
-        //        }
         searchingSpinnerView.isHidden = false
         self.moviesList.removeAll()
         self.filteredMovies.removeAll()
@@ -203,7 +159,6 @@ class HomeViewController: UIViewController,UITableViewDataSource,UITableViewDele
                             
                         }
                         self.moviesList.append(r)
-                        passedMovies = self.moviesList
                         self.filteredMovies = self.moviesList
                         DispatchQueue.main.async {self.searchingSpinnerView.isHidden = true;self.tableView.reloadData();}
                     }
@@ -215,6 +170,7 @@ class HomeViewController: UIViewController,UITableViewDataSource,UITableViewDele
     
     func filterContentForGenre(_ genreText: String) {
         filteredMovies = moviesList.filter { (movie: Movie) -> Bool in
+            guard let _ = movie.genresString else {return false}
             return movie.genresString!.contains(genreText)
         }
         
