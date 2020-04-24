@@ -11,16 +11,18 @@ import UIKit
 class FeaturedTableViewCell: UITableViewCell, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout  {
     @IBOutlet weak var categoryLabel: UILabel!
     @IBOutlet private weak var collectionView: UICollectionView!
-    //var categoryTag : Tag?
+
+    
+    var parentController: UIViewController?
+    
     var moviesList = [Movie](){
         didSet{
-            
             DispatchQueue.main.async {
                 self.collectionView.reloadData()
             }
         }
     }
-    var parentController: UIViewController?
+    
     
     override func awakeFromNib() {
         self.collectionView.delegate = self

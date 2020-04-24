@@ -11,9 +11,9 @@ import UIKit
 class FeaturedViewController: UIViewController,UITableViewDataSource,UITableViewDelegate {
     @IBOutlet private weak var tableView: UITableView!
     
-    var categoryTags = ["Movies","TV Shows"]
-    var featuredMoviesList = [Movie]()
-    var featuredShowsList = [Movie]()
+    fileprivate var categoryTags = ["Movies","TV Shows"]
+    fileprivate var featuredMoviesList = [Movie]()
+    fileprivate var featuredShowsList = [Movie]()
 
     override func viewDidLoad() {
         

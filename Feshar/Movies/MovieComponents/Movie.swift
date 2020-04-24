@@ -7,31 +7,7 @@
 //
 
 import Foundation
-//struct Movie:Equatable{
-//    static func == (lhs: Movie, rhs: Movie) -> Bool {
-//        return lhs.title == rhs.title
-//    }
-//
-//    var id: Int
-//    var title: String
-//    var posterIdentifier: String
-//    var genre: genre
-//    var duration: String
-//    var cast: [Cast]
-//    var imdbRating: String
-//    var tags: [Tag]
-//    var description: String
-//    var genreWithDuration: String{
-//        get{
-//            return genre.rawValue + " - " + duration
-//        }
-//    }
-//}
-
 struct Movie:Equatable,Decodable{
-//    static func == (lhs: Movie, rhs: Movie) -> Bool {
-//        return lhs.title == rhs.title
-//    }
     static func == (lhs: Movie, rhs: Movie) -> Bool {
         return lhs.id == rhs.id
     }

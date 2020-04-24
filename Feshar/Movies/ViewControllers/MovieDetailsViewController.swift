@@ -19,8 +19,8 @@ class MovieDetailsViewController: UIViewController,UITableViewDataSource,UITable
     @IBOutlet private weak var addToWishListButton: UIButton!
     
     var movie: Movie?
-    var castArray = [Cast]()
-    var isTvShow = false
+    fileprivate var castArray = [Cast]()
+    fileprivate var isTvShow = false
     
     override func viewDidLoad() {
         super.viewDidLoad()

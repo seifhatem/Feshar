@@ -16,8 +16,8 @@ class HomeViewController: UIViewController,UITableViewDataSource,UITableViewDele
     @IBOutlet private weak var searchBar: UISearchBar!
     @IBOutlet private weak var searchingSpinnerView: UIView!
     
-    var moviesList = [Movie]()
-    var filteredMovies: [Movie] = []{
+    fileprivate var moviesList = [Movie]()
+    fileprivate var filteredMovies: [Movie] = []{
         didSet{
             if filteredMovies.count == 0{
                 DispatchQueue.main.async {
@@ -33,17 +33,14 @@ class HomeViewController: UIViewController,UITableViewDataSource,UITableViewDele
             }
         }
     }
-    var initialMoviesList: [Movie] = []
     
     
-    var allButton: UIButton?
-    var filterButtons = [UIButton]()
-    var lastSelectedFilterButton: UIButton?
-    var searchThread: DispatchWorkItem?
-    
-    
-    
-    var filters = ["All"]
+    fileprivate var initialMoviesList: [Movie] = []
+    fileprivate var allButton: UIButton?
+    fileprivate var filterButtons = [UIButton]()
+    fileprivate var lastSelectedFilterButton: UIButton?
+    fileprivate var searchThread: DispatchWorkItem?
+    fileprivate var filters = ["All"]
     
     override func viewDidLoad() {
         

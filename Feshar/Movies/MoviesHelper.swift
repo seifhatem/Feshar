@@ -151,7 +151,7 @@ func fetchCast(movie: Movie,completion:@escaping (_ castArray: [Cast])->Void){
             fetchCastInfo(cast: singleCast) { (returnedCast) in
                 castArray.append(returnedCast)
                 processedCast+=1
-                if(cast.count==processedCast){print("hi");completion(castArray);}
+                if(cast.count==processedCast){completion(castArray)}
             }
             
             

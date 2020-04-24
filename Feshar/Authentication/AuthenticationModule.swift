@@ -8,8 +8,6 @@
 
 import Foundation
 
-
-
 func saveCredentialsToUD(username: String, password: String){
     if username == "" || password == ""{
         UserDefaults.standard.set(nil, forKey: "userPassword")
