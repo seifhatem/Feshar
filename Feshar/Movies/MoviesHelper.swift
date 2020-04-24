@@ -138,3 +138,39 @@ func addGenresToMoviesArray(movies: inout [Movie]){
     
     
 }
+
+func fetchCast(movie: Movie,completion:@escaping (_ castArray: [Cast])->Void){
+    var castArray = [Cast]()
+    httpGETRequest(urlString: MoviesAPI.Endpoints.baseURL+"movie/"+String(movie.id)+"/credits") { (data, error) in
+        guard let data = data else{return}
+        guard let jsonResponse = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] else{return}
+        guard let cast = jsonResponse["cast"] as? NSArray else{return}
+        var processedCast = 0
+        for i in 0..<cast.count{
+            guard var singleCast =  try? Cast(from: cast[i]) else{processedCast+=1;continue;}
+            fetchCastInfo(cast: singleCast) { (returnedCast) in
+                castArray.append(returnedCast)
+                processedCast+=1
+                if(cast.count==processedCast){print("hi");completion(castArray);}
+            }
+            
+            
+        }
+}
+    
+    func fetchCastInfo(cast: Cast, completion: @escaping(_ castWithInfo: Cast)->Void){
+        var returnedCast = cast
+    httpGETRequest(urlString: MoviesAPI.Endpoints.postersBaseURL+cast.photoIdentifier) { (data, error) in
+        guard let data = data else{return}
+        returnedCast.photoData = data
+        httpGETRequest(urlString: MoviesAPI.Endpoints.FetchPersonURL.urlString + String(cast.id) ) { (data, error) in
+            guard let data = data else{return}
+            guard let jsonResponse = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] else{return}
+            guard let bio = jsonResponse["biography"] as? String else{return}
+            returnedCast.bio = bio
+            completion(returnedCast)
+        }
+    }
+    }
+
+}

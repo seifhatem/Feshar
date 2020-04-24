@@ -27,34 +27,16 @@ class MovieDetailsViewController: UIViewController,UITableViewDataSource,UITable
         tableView.delegate = self
         tableView.dataSource = self
         setupNavigationBar()
-        fetchCast()
+        fetchCast(movie: movie!) { (castArray) in
+            self.castArray = castArray
+            DispatchQueue.main.async {self.tableView.reloadData()}
+        }
         setupMoviePage()
         updateWatchListButton()
     }
     
     
-    func fetchCast(){
-        httpGETRequest(urlString: MoviesAPI.Endpoints.baseURL+"movie/"+String(movie!.id)+"/credits") { (data, error) in
-            guard let data = data else{return}
-            guard let jsonResponse = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] else{return}
-            guard let cast = jsonResponse["cast"] as? NSArray else{return}
-            for character in cast{
-                guard var r =  try? Cast(from: character) else{return}
-                httpGETRequest(urlString: MoviesAPI.Endpoints.postersBaseURL+r.photoIdentifier) { (data, error) in
-                    guard let data = data else{return}
-                    r.photoData = data
-                    httpGETRequest(urlString: MoviesAPI.Endpoints.FetchPersonURL.urlString + String(r.id) ) { (data, error) in
-                        guard let data = data else{return}
-                        guard let jsonResponse = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] else{return}
-                        guard let bio = jsonResponse["biography"] as? String else{return}
-                        r.bio = bio
-                        self.castArray.append(r)
-                        DispatchQueue.main.async {self.tableView.reloadData()}
-                    }
-                }
-            }
-        }
-    }
+
     
     
     func setupNavigationBar(){
@@ -84,12 +66,6 @@ class MovieDetailsViewController: UIViewController,UITableViewDataSource,UITable
     }
     
     func updateWatchListButton(){
-//        if isTvShow{
-//            addToWishListButton.isEnabled = false
-//            addToWishListButton.backgroundColor = .darkGray
-//             addToWishListButton.setTitle("Movies Only", for: .disabled)
-//            return;
-//        }
         if (isInWatchList(movie!)){
             addToWishListButton.isEnabled = false
             addToWishListButton.backgroundColor = .darkGray
