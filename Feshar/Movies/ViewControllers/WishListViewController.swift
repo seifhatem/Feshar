@@ -11,7 +11,7 @@ import UIKit
 class WishListViewController: UIViewController,UITableViewDataSource,UITableViewDelegate {
     let refreshControl = UIRefreshControl()
     
-    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet private weak var tableView: UITableView!
     
     override func viewWillAppear(_ animated: Bool) {
         fetchWatchList {

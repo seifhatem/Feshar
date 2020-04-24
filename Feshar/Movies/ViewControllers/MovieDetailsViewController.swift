@@ -10,13 +10,13 @@ import Foundation
 import UIKit
 
 class MovieDetailsViewController: UIViewController,UITableViewDataSource,UITableViewDelegate{
-    @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var moivePoster: UIImageView!
-    @IBOutlet weak var movieNameLabel: UILabel!
-    @IBOutlet weak var genreAndDurationLabel: UILabel!
-    @IBOutlet weak var imdbLabel: UILabel!
-    @IBOutlet weak var descriptionLabel: UILabel!
-    @IBOutlet weak var addToWishListButton: UIButton!
+    @IBOutlet private weak var tableView: UITableView!
+    @IBOutlet private weak var moivePoster: UIImageView!
+    @IBOutlet private weak var movieNameLabel: UILabel!
+    @IBOutlet private weak var genreAndDurationLabel: UILabel!
+    @IBOutlet private weak var imdbLabel: UILabel!
+    @IBOutlet private weak var descriptionLabel: UILabel!
+    @IBOutlet private weak var addToWishListButton: UIButton!
     
     var movie: Movie?
     var castArray = [Cast]()

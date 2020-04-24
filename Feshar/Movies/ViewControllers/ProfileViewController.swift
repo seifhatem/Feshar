@@ -10,8 +10,8 @@ import UIKit
 
 class ProfileViewController: UIViewController {
 
-    @IBOutlet weak var nameLabel: UILabel!
-    @IBOutlet weak var adultContentSwitch: UISwitch!
+    @IBOutlet private weak var nameLabel: UILabel!
+    @IBOutlet private weak var adultContentSwitch: UISwitch!
     
     override func viewDidLoad() {
         super.viewDidLoad()

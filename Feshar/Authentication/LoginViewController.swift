@@ -10,11 +10,11 @@ import Foundation
 import UIKit
 
 class LoginViewController: UIViewController{
-    @IBOutlet weak var usernameTxtBox: UITextField!
-    @IBOutlet weak var passwordTxtBox: UITextField!
-    @IBOutlet weak var autoLoginSwitch: UISwitch!
-    @IBOutlet weak var loginButton: UIButton!
-    @IBOutlet weak var loginSpinnerView: UIView!
+    @IBOutlet private weak var usernameTxtBox: UITextField!
+    @IBOutlet private weak var passwordTxtBox: UITextField!
+    @IBOutlet private weak var autoLoginSwitch: UISwitch!
+    @IBOutlet private weak var loginButton: UIButton!
+    @IBOutlet private weak var loginSpinnerView: UIView!
     
     override func viewDidLoad() {
         //self.view.bringSubviewToFront(loginSpinnerView)
@@ -22,9 +22,10 @@ class LoginViewController: UIViewController{
         
         autoLogin();
         
+        //TODO: images bug
+        //TODO: landscape spinner
+        
     }
-    //Username and password should be required fields. If the user forgets to input either, a UIAlert should appear to warn them.
-    //The password should be at least 8 characters long.  If the user inputs a password that is less than 8 characters, a UIAlert should appear to warn them.
     
     func autoLogin(){
     if let savedPassword = UserDefaults.standard.string(forKey: "userPassword"), let savedUserName = UserDefaults.standard.string(forKey: "userUsername"){
@@ -36,7 +37,7 @@ class LoginViewController: UIViewController{
     
     @IBAction func loginBtnTapped(_ sender: Any) {
         //disable login form controls
-        var isAutoLoginSwitched = autoLoginSwitch.isOn ? true:false
+        let isAutoLoginSwitched = autoLoginSwitch.isOn ? true:false
         changeLoginFormStatus()
         loginSpinnerView.isHidden = false
         let decoder = JSONDecoder()
@@ -118,7 +119,6 @@ class LoginViewController: UIViewController{
     func popAlertWithMessage(_ message: String){
        
         DispatchQueue.main.async {
-            
             //alert is called so the login process is definitely complete so reenable controls
              self.loginSpinnerView.isHidden = true
             self.changeLoginFormStatus()
@@ -136,13 +136,6 @@ class LoginViewController: UIViewController{
     }
     
     func showSuccessfulLoginVC(withUsername: String){
-        
-//        let successfulLoginVC = storyboard?.instantiateViewController(withIdentifier: "SuccessfulLoginViewController") as! SuccessfulLoginViewController
-//
-//        successfulLoginVC.modalPresentationStyle = .fullScreen
-//        present(successfulLoginVC, animated: true, completion: nil)
-//        successfulLoginVC.loggedinUserLabel.text = withUsername
-        
         loginSpinnerView.isHidden = true
         usernameTxtBox.text = ""
         passwordTxtBox.text = ""

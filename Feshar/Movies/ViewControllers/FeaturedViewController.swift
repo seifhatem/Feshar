@@ -9,7 +9,7 @@
 import UIKit
 
 class FeaturedViewController: UIViewController,UITableViewDataSource,UITableViewDelegate {
-    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet private weak var tableView: UITableView!
     
     var categoryTags = ["Movies","TV Shows"]
     var featuredMoviesList = [Movie]()

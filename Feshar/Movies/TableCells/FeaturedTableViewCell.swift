@@ -10,7 +10,7 @@ import UIKit
 
 class FeaturedTableViewCell: UITableViewCell, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout  {
     @IBOutlet weak var categoryLabel: UILabel!
-    @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet private weak var collectionView: UICollectionView!
     //var categoryTag : Tag?
     var moviesList = [Movie](){
         didSet{

@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 class SuccessfulLoginViewController: UIViewController{
-    @IBOutlet weak var loggedinUserLabel: UILabel!
+    @IBOutlet private weak var loggedinUserLabel: UILabel!
     
     @IBAction func logoutTapped(_ sender: Any) {
         saveCredentialsToUD(username: "", password: "")

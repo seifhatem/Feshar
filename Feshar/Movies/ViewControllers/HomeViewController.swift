@@ -11,10 +11,10 @@ import UIKit
 
 class HomeViewController: UIViewController,UITableViewDataSource,UITableViewDelegate,UISearchBarDelegate,UITextFieldDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
-    @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var filterButtonsCollection: UICollectionView!
-    @IBOutlet weak var searchBar: UISearchBar!
-    @IBOutlet weak var searchingSpinnerView: UIView!
+    @IBOutlet private weak var tableView: UITableView!
+    @IBOutlet private weak var filterButtonsCollection: UICollectionView!
+    @IBOutlet private weak var searchBar: UISearchBar!
+    @IBOutlet private weak var searchingSpinnerView: UIView!
     
     var moviesList = [Movie]()
     var filteredMovies: [Movie] = []{
